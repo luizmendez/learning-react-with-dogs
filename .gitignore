@@ -1,0 +1,7 @@
+node_modules
+TEST-App.xml
+npm-debug.log
+
+# Build artifacts
+dist/*
+build/*
