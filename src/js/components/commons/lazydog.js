@@ -1,0 +1,60 @@
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+
+const lazyStyle = {
+    height: '426px',
+    borderRadius: '5px',
+    backgroundColor: '#CCCCCC',
+    width: '30%',
+    margin: '15px 0'
+}
+
+class LazyDog extends Component {
+
+    state = {
+        visible: false
+    }
+
+    lazyCard = React.createRef();
+
+    componentDidMount() {
+        this.wakeLazyDog();
+        if (!this.state.visible) {
+            window.addEventListener('scroll', this.wakeLazyDog );
+            window.addEventListener('resize', this.wakeLazyDog );
+        }
+    }
+
+    componentWillUnmount() {
+        if (!this.state.visible) this.removeListener();
+    }
+
+    wakeLazyDog = () => {
+        if (this.isElementVisible(this.lazyCard.current)) {
+            this.setState({visible: true});
+            this.removeListener();
+        }
+    }
+
+    isElementVisible = (el) => {
+        if (!el) return;
+        const b = el.getBoundingClientRect();
+        return (
+            b.top >= 0 &&
+            b.top <= (window.innerHeight || document.documentElement.clientHeight)
+        );
+    }
+
+    removeListener = () => {
+        window.removeEventListener('scroll', this.wakeLazyDog );
+        window.removeEventListener('resize', this.wakeLazyDog );
+    }
+
+    render() {
+        return (
+            this.state.visible ? this.props.children : <div ref={this.lazyCard}  style={lazyStyle} />
+        );
+    }
+}
+
+export default LazyDog;

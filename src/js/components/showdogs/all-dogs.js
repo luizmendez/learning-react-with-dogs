@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DogCard from "./dogcard";
+import LazyDog from "../commons/lazydog";
 
 class AllDogs extends Component {
     state = {
@@ -53,7 +54,9 @@ class AllDogs extends Component {
             <div style={cardsContainerStyle}>
                 { error && <div>{error}</div>}
                 { dogs && dogs.map( dog =>
-                    <DogCard key={dog.name} name={dog.name} subBreed={dog.subBreed} imgURL={dog.imgURL} /> 
+                    <LazyDog key={`lazy-${dog.name}`}>
+                        <DogCard name={dog.name} subBreed={dog.subBreed} imgURL={dog.imgURL} /> 
+                    </LazyDog>
                 ) }
             </div>
         );

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Image from "../commons/image";
 import DogPic from "./dogpic";
 
 const cardStyle = {
     width: '30%',
-    margin: '15px 0'
+    margin: '15px 0',
+    height: '426px'
 };
 const capStyle = {
     textTransform: 'capitalize'
