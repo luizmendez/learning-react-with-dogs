@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import DogCard from "./dogcard";
 import LazyDog from "../commons/lazydog";
 
+const cardsContainerStyle = {
+    margin: "40px 0",
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-evenly"
+}
+
 class AllDogs extends Component {
     state = {
         dogs: null,
@@ -16,6 +24,11 @@ class AllDogs extends Component {
 
     fetchAllDogs = () => {
         console.log('Fetching doggos...');
+        if (localStorage.getItem('dogs')) {
+            const dogs = JSON.parse(localStorage.getItem('dogs'));
+            this.setState({dogs, error: null});
+            return false;
+        }
         return fetch(this.allDogsURL)
             .then(r => {
                 if (r.status >= 400) {
@@ -29,7 +42,8 @@ class AllDogs extends Component {
                     doglist.push({
                         name: dog,
                         subBreed: r.message[dog],
-                        imgURL: "https://dog.ceo/api/breed/"+dog+"/images/random"
+                        imgEndpoint: `https://dog.ceo/api/breed/${dog}/images/random`,
+                        imgURL: null
                     })
                 }
                 return doglist;
@@ -41,21 +55,52 @@ class AllDogs extends Component {
             });
     };
 
+    filterDogs = () => {
+        const {filterValue} = this.props;
+        const {dogs} = this.state;
+        return (!!dogs && !!filterValue ?
+            dogs.filter( dog => ( dog.name.includes(filterValue) ) )
+            : dogs);
+    }
+
+    fetchDogImg = (dogBreed) => {
+        const dog = this.state.dogs.filter(dog => (
+            dog.name === dogBreed
+        ))[0];
+        console.log('Fetching doggo image...');
+        return fetch(dog.imgEndpoint)
+            .then(r => {
+                if (r.status >= 400) {
+                    throw new Error("There was an error fetching the doggo pic.");
+                }
+                return r.json();
+            })
+            .then(img => {
+                const newDogList = this.state.dogs.map((dog) => {
+                    if (dogBreed === dog.name) dog.imgURL =  img.message;
+                    return dog;
+                }, );
+                this.setState({ dogs: newDogList }, this.saveInLocalStorage);
+            })
+            .catch(error => {
+                this.setState({error: error.toString()});
+                console.log(error);
+            });
+    };
+
+    saveInLocalStorage = () => {
+        localStorage.setItem('dogs', JSON.stringify(this.state.dogs));
+    }
+
     render() {
-        const {dogs, error} = this.state;
-        const cardsContainerStyle = {
-            margin: "40px 0",
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between"
-        }
+        const {error} = this.state;
+        const filteredDogs = this.filterDogs();
         return (
             <div style={cardsContainerStyle}>
                 { error && <div>{error}</div>}
-                { dogs && dogs.map( dog =>
-                    <LazyDog key={`lazy-${dog.name}`}>
-                        <DogCard name={dog.name} subBreed={dog.subBreed} imgURL={dog.imgURL} /> 
+                { filteredDogs && filteredDogs.map( dog =>
+                    <LazyDog key={`lazy-${dog.name}`} dogBreed={dog.name} filterValue={this.props.filterValue} imgURL={dog.imgURL} fetchDogImg={this.fetchDogImg}>
+                        <DogCard name={dog.name} subBreed={dog.subBreed} imgURL={dog.imgURL}/> 
                     </LazyDog>
                 ) }
             </div>

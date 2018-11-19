@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DogFilter from "../filter/dogfilter"
 
 class Header extends Component {
     render() {
@@ -15,6 +16,7 @@ class Header extends Component {
                             <a className="nav-link" href="#">About</a>
                         </li>
                     </ul>
+                    <DogFilter updateFilterValue={this.props.updateFilterValue} filterValue={this.props.filterValue} />
                 </div>
             </nav>
         );

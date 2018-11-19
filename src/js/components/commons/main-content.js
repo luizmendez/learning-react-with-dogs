@@ -5,7 +5,7 @@ class MainContent extends Component {
 
     render() {
         return (
-            <AllDogs />
+            <AllDogs filterValue={this.props.filterValue}/>
         );
     }
 }

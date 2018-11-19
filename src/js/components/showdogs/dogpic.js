@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const defaultPlaceholder = "https://cdn-images-1.medium.com/max/800/1*dgfd5JaT0d7JT4VfhFEnzg.gif";
+const defaultPlaceholder = require("../../../assets/dogloader.gif");
 
 class DogPic extends Component {
     state = {
@@ -9,12 +9,17 @@ class DogPic extends Component {
     };
 
     componentDidMount() {
-        this.waitImgLoad();
+        if (this.props.imgURL) this.waitImgLoad();
+    }
+
+    componentDidUpdate() {
+        if (!this.state.imgLoaded) this.waitImgLoad();
     }
 
     placeholderURL = this.props.placeholder || defaultPlaceholder;
 
     waitImgLoad = () => {
+        if (!this.props.imgURL) return;
         const img = new Image();
         img.onload = () => this.handleImageLoaded();
         img.onerror = () => this.handleImageError();
@@ -26,7 +31,7 @@ class DogPic extends Component {
     }
 
     handleImageError = () => {
-        this.setState({error: "Error loading doggo pic."});
+        this.setState({error: `Error loading doggo pic: ${this.props.imgURL}`});
     }
 
     render() {

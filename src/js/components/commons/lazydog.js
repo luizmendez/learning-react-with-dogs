@@ -26,13 +26,18 @@ class LazyDog extends Component {
     }
 
     componentWillUnmount() {
-        if (!this.state.visible) this.removeListener();
+        this.removeListener();
+    }
+
+    componentDidUpdate(prev) {
+        if (prev.filterValue !== this.props.filterValue) this.wakeLazyDog();
     }
 
     wakeLazyDog = () => {
         if (this.isElementVisible(this.lazyCard.current)) {
             this.setState({visible: true});
             this.removeListener();
+            if (!this.props.imgURL) this.props.fetchDogImg(this.props.dogBreed);
         }
     }
 

@@ -12,11 +12,20 @@ const wrapperStyle = {
 };
 
 class App extends Component {
+
+    state = {
+        filterValue: ""
+    }
+
+    updateFilterValue = (filterValue) => {
+        this.setState({filterValue});
+    }
+
     render() {
         return (
             <div className="main-wrapper" style={wrapperStyle}>
-                <Header />
-                <MainContent />
+                <Header updateFilterValue={this.updateFilterValue} filterValue={this.state.filterValue}/>
+                <MainContent filterValue={this.state.filterValue} />
                 <Footer />
             </div>
         );
