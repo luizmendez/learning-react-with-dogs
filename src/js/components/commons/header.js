@@ -16,7 +16,9 @@ class Header extends Component {
                             <a className="nav-link" href="#">About</a>
                         </li>
                     </ul>
+                    {this.props.showFilter && 
                     <DogFilter updateFilterValue={this.props.updateFilterValue} filterValue={this.props.filterValue} />
+                    }
                 </div>
             </nav>
         );

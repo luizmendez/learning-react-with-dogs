@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import Header from "./commons/header";
-import MainContent from "./commons/main-content";
 import Footer from "./commons/footer";
+import Router from "./router/router";
+import Route from "./router/route";
+import Otherwise from "./router/otherwise";
+import AllDogs from "./showdogs/all-dogs";
+import Dog from "./showdogs/dog";
 
 const wrapperStyle = {
     width: '95%',
@@ -14,18 +18,33 @@ const wrapperStyle = {
 class App extends Component {
 
     state = {
-        filterValue: ""
+        showFilter: true,
+        filterValue: "",
+        path: null
     }
 
     updateFilterValue = (filterValue) => {
         this.setState({filterValue});
     }
 
+    showFilter = (showFilter) => {
+        this.setState({showFilter});
+    }
+
     render() {
+        const {showFilter, filterValue, path} = this.state;
         return (
             <div className="main-wrapper" style={wrapperStyle}>
-                <Header updateFilterValue={this.updateFilterValue} filterValue={this.state.filterValue}/>
-                <MainContent filterValue={this.state.filterValue} />
+                <Header showFilter={showFilter} updateFilterValue={this.updateFilterValue} filterValue={filterValue}/>
+                <Router>
+                    <Route path="/dogs">
+                        <AllDogs filterValue={this.state.filterValue} />
+                    </Route>
+                    <Route path="/dog/:breed">
+                        <Dog />
+                    </Route>
+                    <Otherwise path="/dogs"/>
+                </Router>
                 <Footer />
             </div>
         );

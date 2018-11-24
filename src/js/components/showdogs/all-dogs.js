@@ -99,8 +99,14 @@ class AllDogs extends Component {
             <div style={cardsContainerStyle}>
                 { error && <div>{error}</div>}
                 { filteredDogs && filteredDogs.map( dog =>
-                    <LazyDog key={`lazy-${dog.name}`} dogBreed={dog.name} filterValue={this.props.filterValue} imgURL={dog.imgURL} fetchDogImg={this.fetchDogImg}>
-                        <DogCard name={dog.name} subBreed={dog.subBreed} imgURL={dog.imgURL}/> 
+                    <LazyDog 
+                        key={`lazy-${dog.name}`} 
+                        dogBreed={dog.name} 
+                        filterValue={this.props.filterValue} 
+                        imgURL={dog.imgURL} 
+                        fetchDogImg={this.fetchDogImg}
+                    >
+                        <DogCard dog={dog} setPath={this.props.setPath}/> 
                     </LazyDog>
                 ) }
             </div>
