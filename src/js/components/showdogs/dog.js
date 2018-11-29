@@ -1,17 +1,13 @@
-import React, { Component } from "react";
-import DogCard from "./dogcard";
-import LazyDog from "../commons/lazydog";
+import React, { Component } from 'react';
 
 const DogStyle = {
-    margin: "40px 0"
-}
+    margin: '40px 0'
+};
 
 class Dog extends Component {
-    state = {
-    };
+    state = {};
 
-    componentDidMount() {
-    }
+    componentDidMount() {}
 
     render() {
         return (

@@ -1,34 +1,21 @@
-import React, { Component } from "react";
-import Route from "./route";
-import AllDogs from "../showdogs/all-dogs";
-import Dog from "../showdogs/dog";
+import { Component } from 'react';
 
-class Router extends Component {
-
-    state = {
-        
+class Redirect extends Component {
+    componentDidMount() {
+        this.props.router.register(this.props.path);
     }
 
-    getCurrentPath = () => {
-        const current = window.location.pathname;
-        const redirect = this.redirects.find(redirect => {
-            return redirect.paths.some((path) => path === current);
-        });
-        if (redirect) {
-            const redirectPath = redirect.redirectPath;
-            history.pushState({path: redirectPath}, "Dogs", redirectPath);
-            return redirectPath.split('/');
-        }
-        return current.split('/');
+    componentDidUpdate() {
+        if (this.props.path === this.props.router.currentPath) this.redirect();
     }
+
+    redirect = () => {
+        history.pushState({ path: this.props.redirect }, '', this.props.redirect);
+    };
 
     render() {
-        const current = this.getCurrentPath();
-        return (
-            <>
-            </>
-        );
+        return null;
     }
 }
 
-export default Router;
+export default Redirect;

@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import Header from "./commons/header";
-import Footer from "./commons/footer";
-import Router from "./router/router";
-import Route from "./router/route";
-import Otherwise from "./router/otherwise";
-import AllDogs from "./showdogs/all-dogs";
-import Dog from "./showdogs/dog";
+import React, { Component } from 'react';
+import Header from './commons/header';
+import Footer from './commons/footer';
+import Router from './router/router';
+import Route from './router/route';
+import Redirect from './router/redirect';
+import Otherwise from './router/otherwise';
+import AllDogs from './showdogs/all-dogs';
+import Dog from './showdogs/dog';
 
 const wrapperStyle = {
     width: '95%',
@@ -16,26 +17,28 @@ const wrapperStyle = {
 };
 
 class App extends Component {
-
     state = {
         showFilter: true,
-        filterValue: "",
-        path: null
-    }
+        filterValue: ''
+    };
 
-    updateFilterValue = (filterValue) => {
-        this.setState({filterValue});
-    }
+    updateFilterValue = filterValue => {
+        this.setState({ filterValue });
+    };
 
-    showFilter = (showFilter) => {
-        this.setState({showFilter});
-    }
+    showFilter = showFilter => {
+        this.setState({ showFilter });
+    };
 
     render() {
-        const {showFilter, filterValue, path} = this.state;
+        const { showFilter, filterValue } = this.state;
         return (
             <div className="main-wrapper" style={wrapperStyle}>
-                <Header showFilter={showFilter} updateFilterValue={this.updateFilterValue} filterValue={filterValue}/>
+                <Header
+                    showFilter={showFilter}
+                    updateFilterValue={this.updateFilterValue}
+                    filterValue={filterValue}
+                />
                 <Router>
                     <Route path="/dogs">
                         <AllDogs filterValue={this.state.filterValue} />
@@ -43,7 +46,8 @@ class App extends Component {
                     <Route path="/dog/:breed">
                         <Dog />
                     </Route>
-                    <Otherwise path="/dogs"/>
+                    <Redirect path="/" redirect="/dogs" />
+                    <Otherwise path="/dogs" />
                 </Router>
                 <Footer />
             </div>

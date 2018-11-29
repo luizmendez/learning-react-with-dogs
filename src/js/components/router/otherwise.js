@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import { Component } from 'react';
 
 class Otherwise extends Component {
-
     componentDidMount() {
-        this.props.router.register(this.props.router.path);
+        this.props.router.register(this.props.path);
     }
 
     render() {
