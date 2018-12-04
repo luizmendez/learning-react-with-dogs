@@ -1,28 +1,36 @@
-import React, { Component } from "react";
-import DogFilter from "../filter/dogfilter"
+import React from 'react';
+import DogFilter from '../filter/dogfilter';
+import Link from '../router/link';
 
-class Header extends Component {
-    render() {
-        return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand" href="#">Kewl Doggos Picz</a>
+function Header(props) {
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <Link className="navbar-brand" href="/">
+                Kewl Doggos Picz
+            </Link>
 
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Doggos</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">About</a>
-                        </li>
-                    </ul>
-                    {this.props.showFilter && 
-                    <DogFilter updateFilterValue={this.props.updateFilterValue} filterValue={this.props.filterValue} />
-                    }
-                </div>
-            </nav>
-        );
-    }
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" href="/dogs">
+                            Doggos
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" href="/about">
+                            About
+                        </Link>
+                    </li>
+                </ul>
+                {props.showFilter && (
+                    <DogFilter
+                        updateFilterValue={props.updateFilterValue}
+                        filterValue={props.filterValue}
+                    />
+                )}
+            </div>
+        </nav>
+    );
 }
 
 export default Header;

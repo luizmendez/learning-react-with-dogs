@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
 
 const lazyStyle = {
     height: '426px',
@@ -7,21 +6,20 @@ const lazyStyle = {
     backgroundColor: '#CCCCCC',
     width: '30%',
     margin: '15px 0'
-}
+};
 
 class LazyDog extends Component {
-
     state = {
         visible: false
-    }
+    };
 
     lazyCard = React.createRef();
 
     componentDidMount() {
         this.wakeLazyDog();
         if (!this.state.visible) {
-            window.addEventListener('scroll', this.wakeLazyDog );
-            window.addEventListener('resize', this.wakeLazyDog );
+            window.addEventListener('scroll', this.wakeLazyDog);
+            window.addEventListener('resize', this.wakeLazyDog);
         }
     }
 
@@ -35,29 +33,28 @@ class LazyDog extends Component {
 
     wakeLazyDog = () => {
         if (this.isElementVisible(this.lazyCard.current)) {
-            this.setState({visible: true});
+            this.setState({ visible: true });
             this.removeListener();
             if (!this.props.imgURL) this.props.fetchDogImg(this.props.dogBreed);
         }
-    }
+    };
 
-    isElementVisible = (el) => {
+    isElementVisible = el => {
         if (!el) return;
         const b = el.getBoundingClientRect();
-        return (
-            b.top >= 0 &&
-            b.top <= (window.innerHeight || document.documentElement.clientHeight)
-        );
-    }
+        return b.top >= 0 && b.top <= (window.innerHeight || document.documentElement.clientHeight);
+    };
 
     removeListener = () => {
-        window.removeEventListener('scroll', this.wakeLazyDog );
-        window.removeEventListener('resize', this.wakeLazyDog );
-    }
+        window.removeEventListener('scroll', this.wakeLazyDog);
+        window.removeEventListener('resize', this.wakeLazyDog);
+    };
 
     render() {
-        return (
-            this.state.visible ? this.props.children : <div ref={this.lazyCard}  style={lazyStyle} />
+        return this.state.visible ? (
+            this.props.children
+        ) : (
+            <div ref={this.lazyCard} style={lazyStyle} />
         );
     }
 }

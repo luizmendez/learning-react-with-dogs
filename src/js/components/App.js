@@ -7,6 +7,7 @@ import Redirect from './router/redirect';
 import Otherwise from './router/otherwise';
 import AllDogs from './showdogs/all-dogs';
 import Dog from './showdogs/dog';
+import About from './about/';
 
 const wrapperStyle = {
     width: '95%',
@@ -34,12 +35,15 @@ class App extends Component {
         const { showFilter, filterValue } = this.state;
         return (
             <div className="main-wrapper" style={wrapperStyle}>
-                <Header
-                    showFilter={showFilter}
-                    updateFilterValue={this.updateFilterValue}
-                    filterValue={filterValue}
-                />
                 <Router>
+                    <Header
+                        showFilter={showFilter}
+                        updateFilterValue={this.updateFilterValue}
+                        filterValue={filterValue}
+                    />
+                    <Route path="/about">
+                        <About />
+                    </Route>
                     <Route path="/dogs">
                         <AllDogs filterValue={this.state.filterValue} />
                     </Route>
@@ -48,8 +52,8 @@ class App extends Component {
                     </Route>
                     <Redirect path="/" redirect="/dogs" />
                     <Otherwise path="/dogs" />
+                    <Footer />
                 </Router>
-                <Footer />
             </div>
         );
     }

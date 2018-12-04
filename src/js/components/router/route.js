@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
+import { RouterContext } from './router';
 
 class Route extends Component {
+    static contextType = RouterContext;
     componentDidMount() {
-        this.props.router.register(this.props.path);
+        this.context.registerPath(this.props.path);
     }
 
     render() {
-        const { currentPath, pathParams } = this.props.router;
-        const shouldRender = currentPath === this.props.path;
+        const { currentLocation, currentPath, pathParams } = this.context;
+        // TODO: compare params instead of currentLocation when a location is pased as props instead of a path
+        const shouldRender = currentPath === this.props.path || currentLocation === this.props.path;
         const children = shouldRender
             ? React.Children.map(this.props.children, child => {
-                  return React.cloneElement(child, { ...pathParams, currentPath });
+                  return React.cloneElement(child, { ...pathParams, currentpath: currentPath });
               })
             : null;
 
-        return <>{children}</>;
+        return children;
     }
 }
 
