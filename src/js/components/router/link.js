@@ -52,12 +52,9 @@ class Link extends Component {
             <a
                 href=""
                 onClick={this.handleClick}
-                className={`${this.props.className}${isCurrentPath ? ' active-style' : ''}`}
-                style={{
-                    ...this.props.style,
-                    textDecoration: isCurrentPath ? 'underline' : 'none',
-                    fontWeight: isCurrentPath ? 'bold' : 'regular'
-                }}>
+                className={`${this.props.className ? this.props.className : ''}${
+                    isCurrentPath ? ' current-link' : ''
+                }`}>
                 {this.props.children}
             </a>
         );

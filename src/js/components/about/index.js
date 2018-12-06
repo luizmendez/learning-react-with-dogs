@@ -1,13 +1,9 @@
 import React from 'react';
 import Link from '../router/link';
 
-const aboutStyle = {
-    margin: '40px 0'
-};
-
 function About() {
     return (
-        <div style={aboutStyle}>
+        <div className="about-content">
             <h2>About</h2>
             <div>Project for learning purposes.</div>
             <ul>
@@ -23,7 +19,7 @@ function About() {
                 </li>
                 <li>
                     <Link href="luizmendez.com" target="_blank">
-                        Luiz Mendez
+                        Luiz Mendez (Bad formed link)
                     </Link>
                 </li>
             </ul>

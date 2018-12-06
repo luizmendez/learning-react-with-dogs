@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import DogCard from './dogcard';
 import LazyDog from '../commons/lazydog';
 
-const cardsContainerStyle = {
-    margin: '40px 0',
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'space-evenly'
-};
-
 class AllDogs extends Component {
     state = {
         dogs: null,
@@ -92,7 +84,7 @@ class AllDogs extends Component {
         const { error } = this.state;
         const filteredDogs = this.filterDogs();
         return (
-            <div style={cardsContainerStyle}>
+            <div className="cards-container">
                 {error && <div>{error}</div>}
                 {filteredDogs &&
                     filteredDogs.map(dog => (

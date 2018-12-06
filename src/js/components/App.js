@@ -9,13 +9,7 @@ import AllDogs from './showdogs/all-dogs';
 import Dog from './showdogs/dog';
 import About from './about/';
 
-const wrapperStyle = {
-    width: '95%',
-    maxWidth: '1240px',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column'
-};
+import url from '../../styles/app.css';
 
 class App extends Component {
     state = {
@@ -34,7 +28,7 @@ class App extends Component {
     render() {
         const { showFilter, filterValue } = this.state;
         return (
-            <div className="main-wrapper" style={wrapperStyle}>
+            <div className="main-wrapper">
                 <Router>
                     <Header
                         showFilter={showFilter}

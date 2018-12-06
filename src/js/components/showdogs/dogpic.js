@@ -46,9 +46,6 @@ class DogPic extends Component {
         const bgImg = imgLoaded ? imgURL : defaultPlaceholder;
         const style = {
             backgroundImage: `url(${bgImg})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'cover',
             height
         };
         return <div className="dog-pic-wrapper card-img-top" style={style} />;

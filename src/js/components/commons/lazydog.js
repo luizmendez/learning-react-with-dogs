@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
 
-const lazyStyle = {
-    height: '426px',
-    borderRadius: '5px',
-    backgroundColor: '#CCCCCC',
-    width: '30%',
-    margin: '15px 0'
-};
-
 class LazyDog extends Component {
     state = {
         visible: false
@@ -54,7 +46,7 @@ class LazyDog extends Component {
         return this.state.visible ? (
             this.props.children
         ) : (
-            <div ref={this.lazyCard} style={lazyStyle} />
+            <div ref={this.lazyCard} className="lazy-dog" />
         );
     }
 }

@@ -3,24 +3,6 @@ import Route from '../router/route';
 
 const pugPic = require('../../../assets/busci.jpg');
 
-const DogStyle = {
-    margin: '40px 0'
-};
-const TitleStyle = {
-    margin: '20px 0 40px 0',
-    textTransform: 'capitalize'
-};
-const PugStyle = {
-    width: '150px',
-    height: '150px',
-    float: 'left',
-    margin: '0 20px 20px 0',
-    backgroundImage: `url(${pugPic})`,
-    backgroundRepeat: 'none',
-    backgroundPosition: 'center center',
-    backgroundSize: 'cover'
-};
-
 class Dog extends Component {
     state = {
         dogInfo: null,
@@ -53,11 +35,11 @@ class Dog extends Component {
 
     render() {
         return (
-            <div style={DogStyle}>
-                <h2 style={TitleStyle}>{this.props.breed}</h2>
+            <div className="dog-content">
+                <h2>{this.props.breed}</h2>
                 <div>
                     <Route path="/dog/pug">
-                        <div style={PugStyle} />
+                        <div className="dog-pug" style={{ backgroundImage: `url(${pugPic})` }} />
                     </Route>
                     <p>{this.state.dogInfo}</p>
                 </div>

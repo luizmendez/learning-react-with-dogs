@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
 import DogPic from './dogpic';
+import DogTip from './dogtip';
+import MousePosition from '../commons/mouseposition';
 import Link from '../router/link';
 
-const cardStyle = {
-    width: '30%',
-    margin: '15px 0',
-    height: '426px'
-};
-const capStyle = {
-    textTransform: 'capitalize'
-};
-const linkStyle = {
-    color: 'rgba(0,0,0,.8)',
-    textDecoration: 'none'
-};
-
 class DogCard extends Component {
+    state = {
+        showTip: false
+    };
+
+    handleMouseEnter = () => {
+        this.setState({
+            showTip: true
+        });
+    };
+
+    handleMouseLeave = () => {
+        this.setState({
+            showTip: false
+        });
+    };
+
     render() {
         const dog = this.props.dog;
         return (
-            <div className="card" style={cardStyle}>
-                <Link href={`/dog/${dog.name}`} style={linkStyle}>
+            <div
+                className="dog-card card"
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}>
+                <Link href={`/dog/${dog.name}`}>
                     <DogPic imgURL={dog.imgURL} />
-                    <div className="card-body">
-                        <h5 className="card-title" style={capStyle}>
-                            {dog.name}
-                        </h5>
-                    </div>
+                    {this.state.showTip && (
+                        <MousePosition
+                            render={mousePos => <DogTip mousepos={mousePos}>{dog.name}</DogTip>}
+                        />
+                    )}
                 </Link>
             </div>
         );
