@@ -8,6 +8,7 @@ import Otherwise from './router/otherwise';
 import AllDogs from './showdogs/all-dogs';
 import Dog from './showdogs/dog';
 import About from './about/';
+import SubmitDog from './submitdog/submitdog';
 
 import url from '../../styles/app.css';
 
@@ -43,6 +44,9 @@ class App extends Component {
                     </Route>
                     <Route path="/dog/:breed">
                         <Dog />
+                    </Route>
+                    <Route path="/submitdog">
+                        <SubmitDog />
                     </Route>
                     <Redirect path="/" redirect="/dogs" />
                     <Otherwise path="/dogs" />

@@ -84,3 +84,20 @@
 .about-content {
     margin: 40px 0;
 }
+
+/* Submit Dog */
+.submit-dog-content {
+    margin: 40px 0;
+}
+.pic-preview img {
+    max-width: 100%;
+    max-height: 80vh;
+}
+.submit-dog-content select {
+    text-transform: capitalize;
+}
+.submit-dog-content .send-response.error {
+    color: #ff0000;
+    font-weight: bold;
+    margin: 10px 0;
+}
