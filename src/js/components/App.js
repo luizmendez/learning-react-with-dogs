@@ -1,46 +1,54 @@
 import React, { Component } from 'react';
-import Header from './commons/header';
-import Footer from './commons/footer';
+
+import { connect } from 'react-redux';
+import * as actions from '../actions/';
+
 import Router from './router/router';
 import Route from './router/route';
 import Redirect from './router/redirect';
 import Otherwise from './router/otherwise';
+
+import Header from './commons/header';
+import Footer from './commons/footer';
 import AllDogs from './showdogs/all-dogs';
 import Dog from './showdogs/dog';
 import About from './about/';
 import SubmitDog from './submitdog/submitdog';
 
-import url from '../../styles/app.css';
+const mapStateToProps = state => {
+    return {
+        filterValue: state.filterValue,
+        dogList: state.dogList,
+        dogListError: state.dogListError
+    };
+};
+
+const mapDispatchToProps = {
+    setDogFilter: actions.setDogFilter,
+    getDogs: actions.getDogs,
+    fetchDogImg: actions.fetchDogImg
+};
 
 class App extends Component {
-    state = {
-        showFilter: true,
-        filterValue: ''
-    };
-
-    updateFilterValue = filterValue => {
-        this.setState({ filterValue });
-    };
-
-    showFilter = showFilter => {
-        this.setState({ showFilter });
-    };
+    componentDidMount() {
+        this.props.getDogs();
+    }
 
     render() {
-        const { showFilter, filterValue } = this.state;
+        const { dogList, setDogFilter, filterValue, fetchDogImg } = this.props;
         return (
             <div className="main-wrapper">
                 <Router>
-                    <Header
-                        showFilter={showFilter}
-                        updateFilterValue={this.updateFilterValue}
-                        filterValue={filterValue}
-                    />
+                    <Header updateFilterValue={setDogFilter} filterValue={filterValue} />
                     <Route path="/about">
                         <About />
                     </Route>
                     <Route path="/dogs">
-                        <AllDogs filterValue={this.state.filterValue} />
+                        <AllDogs
+                            filterValue={filterValue}
+                            dogList={dogList}
+                            fetchDogImg={fetchDogImg}
+                        />
                     </Route>
                     <Route path="/dog/:breed">
                         <Dog />
@@ -57,4 +65,7 @@ class App extends Component {
     }
 }
 
-export default App;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

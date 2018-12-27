@@ -1,6 +1,7 @@
 import React from 'react';
 import DogFilter from '../filter/dogfilter';
 import Link from '../router/link';
+import Route from '../router/route';
 
 function Header(props) {
     return (
@@ -27,12 +28,12 @@ function Header(props) {
                         </Link>
                     </li>
                 </ul>
-                {props.showFilter && (
+                <Route path="/dogs">
                     <DogFilter
                         updateFilterValue={props.updateFilterValue}
                         filterValue={props.filterValue}
                     />
-                )}
+                </Route>
             </div>
         </nav>
     );

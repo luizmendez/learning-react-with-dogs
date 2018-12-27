@@ -1,33 +1,53 @@
 {
-  "name": "learning-react",
-  "version": "1.0.0",
-  "description": "Learning React with Dogs",
-  "main": "src/js/index.js",
-  "repository": "git@github.com:luizmendez/learning-react-with-dogs.git",
-  "author": "Luiz Mendez <luiz.mendez.g@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.1.5",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.5",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.4",
-    "css-loader": "^1.0.1",
-    "file-loader": "^2.0.0",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "node": "^11.1.0",
-    "prettier": "^1.15.2",
-    "prop-types": "^15.6.2",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.3",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
-  },
-  "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
-  }
+    "name": "learning-react",
+    "version": "1.0.0",
+    "description": "Learning React with Dogs",
+    "main": "src/js/index.js",
+    "repository": "git@github.com:luizmendez/learning-react-with-dogs.git",
+    "author": "Luiz Mendez <luiz.mendez.g@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/plugin-proposal-class-properties": "^7.1.0",
+        "@babel/plugin-transform-runtime": "^7.2.0",
+        "@babel/preset-env": "^7.1.5",
+        "@babel/preset-react": "^7.0.0",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-jest": "^23.4.2",
+        "babel-loader": "^8.0.4",
+        "css-loader": "^1.0.1",
+        "file-loader": "^2.0.0",
+        "html-loader": "^0.5.5",
+        "html-webpack-plugin": "^3.2.0",
+        "jest": "^23.6.0",
+        "jest-fetch-mock": "^2.1.0",
+        "jest-localstorage-mock": "^2.3.0",
+        "node": "^11.1.0",
+        "prettier": "^1.15.2",
+        "prop-types": "^15.6.2",
+        "react": "^16.6.1",
+        "react-dom": "^16.6.3",
+        "redux": "^4.0.1",
+        "redux-mock-store": "1.4.0",
+        "redux-thunk": "^2.3.0",
+        "regenerator-runtime": "^0.13.1",
+        "style-loader": "^0.23.1",
+        "webpack": "^4.25.1",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.10"
+    },
+    "scripts": {
+        "start": "webpack-dev-server --mode development --open --hot",
+        "build": "webpack --mode production",
+        "test": "jest test --verbose false"
+    },
+    "dependencies": {
+        "react-redux": "^6.0.0"
+    },
+    "jest": {
+        "setupFiles": [
+            "./tools/setupJest.js",
+            "jest-localstorage-mock"
+        ]
+    }
 }
