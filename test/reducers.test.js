@@ -5,9 +5,11 @@ import { mockStore } from '../tools/mockStore';
 describe('Reducer Functions', () => {
     it('Should return state', () => {
         const iniState = {
-            filter: '',
-            dogs: [],
-            dogListError: ''
+            filterValue: '',
+            dogList: [],
+            dogListError: '',
+            submittedDogs: [],
+            messagesList: []
         };
         expect(rootReducer()).toEqual(iniState);
     });

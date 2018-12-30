@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MessageHandler /> renders the MessageHandler component 1`] = `
+<div
+  className="message-handler"
+>
+  <Snackbar
+    id={131313}
+    key="131313"
+    message="Error uploading dog pic."
+    type="error"
+  />
+</div>
+`;
+
+exports[`<MessageHandler /> should render a Snackbar child component 1`] = `
+<MessageHandler
+  messagesList={
+    Array [
+      Object {
+        "id": 131313,
+        "message": "Testing an snackbar message component",
+        "type": "info",
+      },
+    ]
+  }
+>
+  <div
+    className="message-handler"
+  >
+    <Snackbar
+      id={131313}
+      key="131313"
+      message="Testing an snackbar message component"
+      type="info"
+    >
+      <div
+        className="snackbar alert alert-dismissible alert-info"
+      >
+        Testing an snackbar message component
+        <button
+          className="close close-snackbar"
+          onClick={[Function]}
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+    </Snackbar>
+  </div>
+</MessageHandler>
+`;

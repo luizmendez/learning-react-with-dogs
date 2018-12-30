@@ -77,7 +77,7 @@ export function fetchDogImg(dogBreed, dogList) {
                 return r.json();
             })
             .then(img => {
-                const dogWithImg = { ...dog, imgURL: img.message };
+                const dogWithImg = { ...dog, imgURL: img.message, imgError: '' };
                 const newDogList = dogList.map(dog => {
                     if (dog.name === dogBreed) {
                         return dogWithImg;
@@ -114,7 +114,7 @@ export function setDogList(dogList) {
 
 // If there is an error retrieving the dogList call action to set error on store
 // Params:
-//  error (string) = the error wich ocurred
+//  error (string) = the error that ocurred
 function setDogListError(dogListError) {
     return {
         type: types.SET_DOG_LIST_ERROR,
@@ -145,5 +145,62 @@ export function setDogImgError(dog, dogList) {
     return {
         type: types.SET_DOG_IMG_ERROR,
         dog
+    };
+}
+
+// Call action to set the submitted dog in the store
+// Params:
+//  submittedDog (formDate) = formData Object of the submitted dog
+function setSubmittedDog(submittedDog) {
+    return {
+        type: types.SET_SUBMITTED_DOG,
+        submittedDog
+    };
+}
+
+// Handles messages list in store
+// Params:
+//  message (object) = object with message attributes: message(string), type(string)
+export function setMessage(msg) {
+    const message = { ...msg, id: Math.floor(Math.random() * Math.floor(999999999)) };
+    return {
+        type: types.SET_MESSAGE,
+        message
+    };
+}
+
+// Removes a message from message list in storage
+// Params:
+//  error (string) = the error that ocurred
+export function removeMessage(message_id) {
+    return {
+        type: types.REMOVE_MESSAGE,
+        message_id
+    };
+}
+
+// Sends form to backend to be processed and dispatch success or error action
+// Params:
+//  data (form data) = the form data of the data to send
+export function sendDogForm(data) {
+    return dispatch => {
+        return fetch('http://localhost:8080/api/senddogpic', {
+            mode: 'no-cors',
+            method: 'POST',
+            body: data
+        })
+            .then(r => {
+                if (r.status >= 400) {
+                    throw new Error('Problem sending Dog Pic, please try again');
+                }
+                return r.json();
+            })
+            .then(r => {
+                dispatch(setMessage({ message: 'Dog submitted with success.', type: 'success' }));
+                dispatch(setSubmittedDog(r.message));
+            })
+            .catch(error => {
+                dispatch(setMessage({ message: error.toString(), type: 'danger' }));
+            });
     };
 }

@@ -10,6 +10,7 @@ import Otherwise from './router/otherwise';
 
 import Header from './commons/header';
 import Footer from './commons/footer';
+import MessageHandler from './messagehandler/messagehandler';
 import AllDogs from './showdogs/all-dogs';
 import Dog from './showdogs/dog';
 import About from './about/';
@@ -19,14 +20,19 @@ const mapStateToProps = state => {
     return {
         filterValue: state.filterValue,
         dogList: state.dogList,
-        dogListError: state.dogListError
+        dogListError: state.dogListError,
+        submitDogError: state.submitDogError,
+        messagesList: state.messagesList
     };
 };
 
 const mapDispatchToProps = {
     setDogFilter: actions.setDogFilter,
     getDogs: actions.getDogs,
-    fetchDogImg: actions.fetchDogImg
+    fetchDogImg: actions.fetchDogImg,
+    sendDogForm: actions.sendDogForm,
+    setMessage: actions.setMessage,
+    removeMessage: actions.removeMessage
 };
 
 class App extends Component {
@@ -35,7 +41,16 @@ class App extends Component {
     }
 
     render() {
-        const { dogList, setDogFilter, filterValue, fetchDogImg } = this.props;
+        const {
+            dogList,
+            setDogFilter,
+            filterValue,
+            fetchDogImg,
+            sendDogForm,
+            setMessage,
+            removeMessage,
+            messagesList
+        } = this.props;
         return (
             <div className="main-wrapper">
                 <Router>
@@ -54,12 +69,17 @@ class App extends Component {
                         <Dog />
                     </Route>
                     <Route path="/submitdog">
-                        <SubmitDog />
+                        <SubmitDog dogList={dogList} sendDogForm={sendDogForm} />
                     </Route>
                     <Redirect path="/" redirect="/dogs" />
                     <Otherwise path="/dogs" />
                     <Footer />
                 </Router>
+                <MessageHandler
+                    messagesList={messagesList}
+                    setMessage={setMessage}
+                    removeMessage={removeMessage}
+                />
             </div>
         );
     }

@@ -48,32 +48,12 @@ describe('Dog actions', () => {
             imgError: ''
         }
     ];
-    const dogListWithImageError = [
-        {
-            name: 'affenpinscher',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
-        },
-        {
-            name: 'african',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
-        },
-        {
-            name: 'airedale',
-            subBreed: [],
-            imgURL: '',
-            imgError: 'Error: Unable to fetch dog image.'
-        }
-    ];
 
     it('Should return the set filter action', () => {
         const filterText = 'Shibe';
         const filterAction = {
-            action: types.SET_DOG_FILTER,
-            filter: 'Shibe'
+            type: types.SET_DOG_FILTER,
+            filterValue: 'Shibe'
         };
         expect(action.setDogFilter(filterText)).toEqual(filterAction);
     });
@@ -81,7 +61,7 @@ describe('Dog actions', () => {
     it('Should return the dog list action', () => {
         const dogListAction = {
             type: types.SET_DOG_LIST,
-            dogs: dogListWithoutImages
+            dogList: dogListWithoutImages
         };
         expect(action.setDogList(dogListWithoutImages)).toEqual(dogListAction);
     });
@@ -98,11 +78,11 @@ describe('Dog actions', () => {
 
         const expectedAction = {
             type: types.SET_DOG_LIST,
-            dogs: dogListWithoutImages
+            dogList: dogListWithoutImages
         };
 
         fetch.mockResponseOnce(apiResponse);
-        const store = mockStore({ filter: '', dogs: [], error: '' });
+        const store = mockStore({ filterValue: '', dogList: [], dogListError: '' });
 
         return store.dispatch(action.fetchDogs(apiURL)).then(() => {
             expect(store.getActions()[0]).toEqual(expectedAction);
@@ -113,11 +93,11 @@ describe('Dog actions', () => {
         const error = 'Unable to fetch dogs.';
         const expectedAction = {
             type: types.SET_DOG_LIST_ERROR,
-            error: `Error: ${error}`
+            dogListError: `Error: ${error}`
         };
 
         fetch.mockReject(new Error(error));
-        const store = mockStore({ filter: '', dogs: [], error: '' });
+        const store = mockStore({ filterValue: '', dogList: [], dogListError: '' });
 
         return store.dispatch(action.fetchDogs(apiURL)).then(() => {
             expect(store.getActions()[0]).toEqual(expectedAction);
@@ -125,15 +105,15 @@ describe('Dog actions', () => {
     });
 
     it('Should return dogList if it is in Local Storage', () => {
-        const KEY = 'dogs';
+        const KEY = 'dogList';
         const dogListString = JSON.stringify(dogListWithImages);
         localStorage.setItem(KEY, dogListString);
         expect(localStorage.__STORE__[KEY]).toEqual(dogListString);
-        expect(action.getFromLocalStorage('dogs')).toEqual(dogListWithImages);
+        expect(action.getFromLocalStorage('dogList')).toEqual(dogListWithImages);
     });
 
     it('Should return falsy if dogList is not in Local Storage', () => {
-        const KEY = 'dogs';
+        const KEY = 'dogList';
         expect(localStorage.__STORE__[KEY]).toBeFalsy();
         expect(action.getFromLocalStorage(KEY)).toBeFalsy();
     });
@@ -147,12 +127,21 @@ describe('Dog actions', () => {
         });
 
         const expectedAction = {
-            type: types.SET_DOG_LIST,
-            dogs: dogListWithImages
+            type: types.SET_DOG_IMG,
+            dog: {
+                name: dogBreed,
+                imgURL,
+                imgError: '',
+                subBreed: []
+            }
         };
 
         fetch.mockResponseOnce(apiResponse);
-        const store = mockStore({ filter: '', dogs: dogListWithoutImages, error: '' });
+        const store = mockStore({
+            filterValue: '',
+            dogList: dogListWithoutImages,
+            dogListError: ''
+        });
 
         return store.dispatch(action.fetchDogImg(dogBreed, dogListWithoutImages)).then(() => {
             expect(store.getActions()[0]).toEqual(expectedAction);
@@ -162,13 +151,18 @@ describe('Dog actions', () => {
     it('Should fail and return error fetching dog image from api', () => {
         const dogBreed = 'airedale';
         const expectedAction = {
-            type: types.SET_DOG_LIST,
-            dogs: dogListWithImageError
+            type: types.SET_DOG_IMG,
+            dog: {
+                name: dogBreed,
+                imgURL: '',
+                imgError: 'Error: Unable to fetch dog image.',
+                subBreed: []
+            }
         };
 
         const error = 'Unable to fetch dog image.';
         fetch.mockReject(new Error(error));
-        const store = mockStore({ filter: '', dogs: [], error: '' });
+        const store = mockStore({ filterValue: '', dogList: [], dogListError: '' });
 
         return store.dispatch(action.fetchDogImg(dogBreed, dogListWithoutImages)).then(() => {
             expect(store.getActions()[0]).toEqual(expectedAction);

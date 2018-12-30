@@ -102,3 +102,17 @@
     font-weight: bold;
     margin: 10px 0;
 }
+
+/* Message Handler */
+.message-handler {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+.message-handler .snackbar {
+    margin: 0 auto 15px auto;
+    width: 94%;
+    max-width: 1240px;
+}
