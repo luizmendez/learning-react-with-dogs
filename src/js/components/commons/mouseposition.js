@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class MousePosition extends Component {
-    state = {
-        xpos: 0,
-        ypos: 0
+    static propTypes = {
+        render: PropTypes.func
     };
 
+    state = {
+        xpos: 0, // Mouse x Position
+        ypos: 0 // Mouse y Position
+    };
+
+    // On event trigger sets the mouse x and y position in state
     handleMouseMove = e => {
         this.setState({
             xpos: e.clientX,

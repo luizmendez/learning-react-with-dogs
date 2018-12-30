@@ -4,6 +4,7 @@ import Link from '../router/link';
 import Route from '../router/route';
 
 function Header(props) {
+    // Renders the app header as Title, Menu and dogFilter when the route has the given path
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link className="navbar-brand" href="/">

@@ -5,14 +5,18 @@ const pugPic = require('../../../assets/busci.jpg');
 
 class Dog extends Component {
     state = {
-        dogInfo: null,
-        error: null
+        dogInfo: null, // fetched info from api
+        error: null // api errors
     };
 
     componentDidMount() {
+        // Fetchs the basic dog info
         this.fetchDogInfo(this.props.breed);
     }
 
+    // Fetches dog breed info from wikipedia media api
+    // Params:
+    //  breed (string) = breed name of the dog to retrieve info
     fetchDogInfo = breed => {
         const wikiURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${breed}`;
         return fetch(wikiURL)
@@ -29,11 +33,12 @@ class Dog extends Component {
             .then(dogInfo => this.setState({ dogInfo, error: null }))
             .catch(error => {
                 this.setState({ error: error.toString() });
-                console.error(error);
             });
     };
 
     render() {
+        // Renders the dog information,
+        // If the breed is a pug shows a dog pic through route rendering
         return (
             <div className="dog-content">
                 <h2>{this.props.breed}</h2>
@@ -41,7 +46,7 @@ class Dog extends Component {
                     <Route path="/dog/pug">
                         <div className="dog-pug" style={{ backgroundImage: `url(${pugPic})` }} />
                     </Route>
-                    <p>{this.state.dogInfo}</p>
+                    <p>{!!this.state.error || this.state.dogInfo}</p>
                 </div>
             </div>
         );

@@ -5,6 +5,8 @@ exports[`<MessageHandler /> renders the MessageHandler component 1`] = `
   className="message-handler"
 >
   <Snackbar
+    autoClose={true}
+    callback={[Function]}
     id={131313}
     key="131313"
     message="Error uploading dog pic."
@@ -29,6 +31,8 @@ exports[`<MessageHandler /> should render a Snackbar child component 1`] = `
     className="message-handler"
   >
     <Snackbar
+      autoClose={true}
+      callback={[Function]}
       id={131313}
       key="131313"
       message="Testing an snackbar message component"

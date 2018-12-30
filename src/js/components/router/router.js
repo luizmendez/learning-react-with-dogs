@@ -4,12 +4,12 @@ const RouterContext = React.createContext();
 
 class Router extends Component {
     state = {
-        locationPath: null,
-        locationParts: null,
-        currentPath: null,
-        pathParams: null,
-        paths: [],
-        otherwise: null
+        locationPath: null, // current window path
+        locationParts: null, // parts of the current window path
+        currentPath: null, // current router path
+        pathParams: null, // parts of the current router path
+        paths: [], // registered paths
+        otherwise: null // registered otherwise
     };
 
     componentDidMount() {

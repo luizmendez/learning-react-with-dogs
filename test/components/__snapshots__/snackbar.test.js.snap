@@ -17,7 +17,7 @@ exports[`<Snackbar /> applies the given type as a css class 1`] = `
 
 exports[`<Snackbar /> renders the Snackbar component 1`] = `
 <div
-  className="snackbar alert alert-dismissible"
+  className="snackbar alert alert-dismissible alert-info"
 >
   Holis World
   <button
@@ -38,7 +38,7 @@ exports[`<Snackbar /> should not render if there is no message 1`] = `""`;
 
 exports[`<Snackbar /> should render a child component 1`] = `
 <div
-  className="snackbar alert alert-dismissible"
+  className="snackbar alert alert-dismissible alert-info"
 >
   <span>
     Holis

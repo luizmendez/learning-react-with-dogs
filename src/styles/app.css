@@ -115,4 +115,5 @@
     margin: 0 auto 15px auto;
     width: 94%;
     max-width: 1240px;
+    z-index: 999;
 }

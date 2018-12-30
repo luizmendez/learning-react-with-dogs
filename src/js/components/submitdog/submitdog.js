@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SubmitDog extends Component {
-    state = {
-        dogPicName: 'Choose File',
-        dogUrlURL: null,
-        submitDogSuccess: ''
+    static propTypes = {
+        dogList: PropTypes.array,
+        sendDogForm: PropTypes.func
     };
 
+    state = {
+        dogPicName: 'Choose File', // Name of the image selected
+        dogUrlURL: '' // URL of image selected
+    };
+
+    // Reference to the preview image element
     dogPicInput = React.createRef();
 
+    // On Event Trigger sets the image name and URL in state
     handlePicChange = () => {
         const [pic] = this.dogPicInput.current.files;
         this.setState({
@@ -17,25 +24,33 @@ class SubmitDog extends Component {
         });
     };
 
+    // On submit prevent default and send data to a redux action call
     handleSubmit = e => {
         e.preventDefault();
         const form = e.target;
+        // Create formData to send data
         const formData = new FormData();
+        // Iterate each form element to get its value
         Object.values(form.elements).forEach(field => {
             if (!field.name || !field.value) {
                 return false;
             }
+            // If field is not of file type get name and value and append to formData
             if (field.getAttribute('type') !== 'file') formData.append(field.name, field.value);
+            // If field is of file type, get the files and append to formData
             if (field.getAttribute('type') === 'file') {
                 const [pic] = field.files;
                 formData.append(field.name, pic);
             }
         });
+        // Send formData to the action call
         this.props.sendDogForm(formData);
     };
 
     render() {
-        const { dogPicName, dogPicURL, submitDogSuccess } = this.state;
+        const { dogPicName, dogPicURL } = this.state;
+        // Renders the form to submit a dog image
+        // also renders an image element to preview the image to be submitted
         return (
             <div className="submit-dog-content">
                 <h2>Submit a Dog Pic</h2>
@@ -89,9 +104,6 @@ class SubmitDog extends Component {
                         <button type="submit" className="btn btn-primary">
                             Submit
                         </button>
-                        {!!submitDogSuccess && (
-                            <div className="send-response">{submitDogSuccess}</div>
-                        )}
                     </form>
                     <div className="pic-preview col-md-6">
                         <img src={dogPicURL} alt="" />
