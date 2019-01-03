@@ -43,7 +43,8 @@
     "scripts": {
         "start": "webpack-dev-server --mode development --open --hot",
         "build": "webpack --mode production",
-        "test": "jest test --verbose false"
+        "test": "jest test --verbose false",
+        "test-watch": "jest test --verbose false --watch"
     },
     "dependencies": {
         "react-redux": "^6.0.0"

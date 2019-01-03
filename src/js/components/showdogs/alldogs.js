@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DogCard from './dogcard';
-import LazyDog from '../lazydog';
+import LazyDog from './lazydog';
 import PropTypes from 'prop-types';
 
 class AllDogs extends Component {
