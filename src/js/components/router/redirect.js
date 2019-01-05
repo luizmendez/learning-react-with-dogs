@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { RouterContext } from './router';
 import PropTypes from 'prop-types';
 
 class Redirect extends Component {
@@ -7,14 +8,19 @@ class Redirect extends Component {
         redirect: PropTypes.string
     };
 
-    // Register the redirect to the router component
+    // React Context usage
+    static contextType = RouterContext;
+
+    // Register the redirect path on the Router
     componentDidMount() {
-        this.props.router.register(this.props.path);
+        this.context.registerPath(this.props.path);
     }
 
     // Checks if the current path is the same as the redirect route path when there's an update
     componentDidUpdate() {
-        if (this.props.path === this.props.router.currentPath) this.redirect();
+        // Get current location and parts of it from the context
+        const { currentLocation, currentPath } = this.context;
+        if (currentPath === this.props.path || currentLocation === this.props.path) this.redirect();
     }
 
     // Uses history.pushState to update location to the redirect path

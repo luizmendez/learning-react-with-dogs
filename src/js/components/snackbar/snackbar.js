@@ -5,12 +5,18 @@ class Snackbar extends Component {
     static propTypes = {
         id: PropTypes.number,
         message: PropTypes.string,
-        callback: PropTypes.func,
-        removeMessage: PropTypes.func,
+        callback: PropTypes.object,
         msToClose: PropTypes.number,
         autoClose: PropTypes.bool,
         type: PropTypes.string,
-        showButton: PropTypes.bool
+        hideCloseButton: PropTypes.bool
+    };
+
+    static defaultProps = {
+        type: 'info',
+        msToClose: 3000,
+        autoClose: true,
+        hideCloseButton: false
     };
 
     state = {
@@ -19,15 +25,11 @@ class Snackbar extends Component {
         timeout: null // timeout to hide the component
     };
 
-    // 3secs default to close
-    defaultMsToClose = 3000;
-
     componentDidMount() {
         // Gets current timestamp and the autoclose flag if applies
+        const { msToClose, autoClose } = this.props;
         const timestamp = Date.now();
-        const msToClose = this.props.msToClose ? this.props.msToClose : this.defaultMsToClose;
-        const shouldAutoClose = this.props.autoClose ? this.props.autoClose : true;
-        const timeout = shouldAutoClose ? setTimeout(this.closeSnackbar, msToClose) : null;
+        const timeout = autoClose ? setTimeout(this.closeSnackbar, msToClose) : null;
         // Sets the timestamp and timeout in state
         this.setState({
             timestamp,
@@ -41,21 +43,17 @@ class Snackbar extends Component {
             {
                 shouldHide: true
             },
-            () => {
-                // Calls callback with component id as parameters
-                this.props.callback(this.props.id);
-            }
+            this.props.callback
         );
     };
 
     render() {
-        const { message, children, type, showCloseButton } = this.props;
+        const { message, children, type, hideCloseButton } = this.props;
         // Gets the content of the snackbar, either children or message passed through props
         const content = children || message;
         const shouldHide = this.state.shouldHide || !content;
-        const showClose = showCloseButton ? showCloseButton : true;
         // Sets the class of the component depending on the prop.type value, defaults to 'info'
-        const snackbarClass = `snackbar alert alert-dismissible alert-${type ? `${type}` : 'info'}`;
+        const snackbarClass = `snackbar alert alert-dismissible alert-${type}`;
         // If component sould hide don't return anything
         if (shouldHide) {
             return null;
@@ -63,7 +61,7 @@ class Snackbar extends Component {
         return (
             <div className={snackbarClass}>
                 {content}
-                {showClose && (
+                {hideCloseButton || (
                     <button
                         type="button"
                         className="close close-snackbar"

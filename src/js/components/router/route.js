@@ -10,7 +10,7 @@ class Route extends Component {
     // React Context usage
     static contextType = RouterContext;
 
-    // Register the path of the route in the router component
+    // Register the route path to the Router
     componentDidMount() {
         this.context.registerPath(this.props.path);
     }

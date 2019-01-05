@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 
 const RouterContext = React.createContext();
 
+// Router manages the paths and location of the app.
+// <Route />, <Redirect /> and <Otherwise /> register their paths into the Router.
+// Gets the current location pathname and splits it into parts to be matched against the registered paths.
+// When a match is made, sets the current location path to context to be used by each <Route /> and <Redirect /> components
+// This components try to match the current path with their own paths to decide to render their childs (route) or change the location (redirect)
+// If no match is found changes the location to the otherwise fallback path
+// An event listener for history.pushState which gets the new current location path
+
 class Router extends Component {
     state = {
         locationPath: null, // current window path
         locationParts: null, // parts of the current window path
         currentPath: null, // current router path
         pathParams: null, // parts of the current router path
-        paths: [], // registered paths
-        otherwise: null // registered otherwise
+        paths: [], // registered route and redirects paths
+        otherwise: null // registered path fallback
     };
 
     componentDidMount() {
@@ -36,7 +44,7 @@ class Router extends Component {
 
     // Get the current window location and parts of it in an array.
     // Sets the current location and parts in the state with a callback to getCurrentRoute
-    // Params: loc - string of current location; defaults to null.
+    // @param {string} loc - current location.
     getCurrentLocation = (loc = null) => {
         const locationPath = loc || window.location.pathname;
         const locationParts = locationPath.split('/');
@@ -51,8 +59,8 @@ class Router extends Component {
         }
     };
 
-    // Tries to get the current path and params of it and sets it on state
-    // If no current path is found and there's an otherwise registered go to it
+    // Tries to get the current path and params of route component and sets it on state
+    // If no current path is found go to otherwise path if is already registered
     getCurrentRoute = () => {
         const currentPath = this.getCurrentPath();
         const pathParams = this.getLocationParams(currentPath);
@@ -96,7 +104,7 @@ class Router extends Component {
     };
 
     // Set in state.paths string of routes and redirects
-    // Params: path - string - path to be registered
+    // @parm {string} path - path to be registered
     // Callback: getCurrentRoute() after setting path on state
     registerPath = path => {
         this.setState(
@@ -108,7 +116,7 @@ class Router extends Component {
     };
 
     // Sets in state.otherwise string of URI fallback
-    // Params: otherwise - string - path of otherwise to be registered
+    // @param {string} otherwise - fallback path to be registered
     registerOtherwise = otherwise => {
         this.setState({ otherwise: otherwise });
     };
@@ -128,16 +136,10 @@ class Router extends Component {
             registerPath: this.registerPath,
             registerOtherwise: this.registerOtherwise
         };
-        // Creates object of Routes, Redirects and Otherwise injecting proper
-        // register function and router object created above as props
-        const children = React.Children.map(this.props.children, child => {
-            const register =
-                child.type.name === 'Otherwise' ? this.registerOtherwise : this.registerPath;
-            return React.cloneElement(child, {
-                router: { ...router, register }
-            });
-        });
-        return <RouterContext.Provider value={router}>{children}</RouterContext.Provider>;
+        // Renders the component children and passes the router object as context
+        return (
+            <RouterContext.Provider value={router}>{this.props.children}</RouterContext.Provider>
+        );
     }
 }
 
