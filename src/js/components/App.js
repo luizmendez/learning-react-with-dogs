@@ -15,24 +15,24 @@ import Otherwise from './router/otherwise';
 import Header from './commons/header';
 import Footer from './commons/footer';
 import MessageHandler from './messagehandler/messagehandler';
-import AllDogs from './showdogs/alldogs';
+import DogList from './showdogs/doglist';
 import Dog from './showdogs/dog';
 import About from './about/';
 import SubmitDog from './submitdog/submitdog';
 
-/* Values to be pased as props from the redux store */
+/* Values to pass as props from the redux store */
 const mapStateToProps = state => {
     return {
-        filterValue: state.filterValue, // Value of the filter to dogList
-        dogList: state.dogList, // Array of objects of dogs
-        dogListError: state.dogListError, // String of error if there's one while retrieving the dogList
-        messagesList: state.messagesList // Array of objects of messages (alerts, errors, info)
+        filterValue: state.filterValue, // Value of the filter applied to dogList
+        dogList: state.dogList, // Array of dog objects
+        dogListError: state.dogListError, // Error message when retrieving the dogList
+        messagesList: state.messagesList // Array of message objects (alerts, errors, info)
     };
 };
 
-/* Actions to be pased as props */
+/* Actions to be pased as props from redux*/
 const mapDispatchToProps = {
-    setDogFilter: actions.setDogFilter, // Set the values of the filter to the dogList
+    setDogFilter: actions.setDogFilter, // Set the values of the filter to be applied to the dog list
     getDogs: actions.getDogs, // Retrieves the dogList
     fetchDogImg: actions.fetchDogImg, // Fetch the dog picture url from api
     sendDogForm: actions.sendDogForm, // Send the information of the submitDog form to an api
@@ -63,51 +63,49 @@ class App extends Component {
     render() {
         const {
             dogList, // List of dogs as an array of objects
-            setDogFilter, // Action prop to set the filter value
+            setDogFilter, // Action to set the filter value
             filterValue, // Value of the filter to the dogList
-            fetchDogImg, // Action prop to fetch the dog image url
-            sendDogForm, // Action prop to send the submitDog form data
+            fetchDogImg, // Action to fetch the dog image url
+            sendDogForm, // Action to send the submitDog form data
             messagesList, // Messages List as an array of objects
-            setMessage, // Action prop to add a message to the list
-            removeMessage // Action prop to reomve a message to the list
+            removeMessage // Action to reomve a message to the list
         } = this.props;
 
-        // Renders the main markup of the app, through the Router components decide what to render depending on the current path
-        // The MessageHandler component is inserted outside of any Router component
+        // Render the main markup of the app, through the Router components decide what to render depending on the current path
+        // The MessageHandler component is rendered outside of any Router component
         return (
             <div className="main-wrapper">
                 <Router>
                     <Header updateFilterValue={setDogFilter} filterValue={filterValue} />
-                    <Route path="/about">
-                        <About />
-                    </Route>
-                    <Route path="/dogs">
-                        <AllDogs
-                            filterValue={filterValue}
-                            dogList={dogList}
-                            fetchDogImg={fetchDogImg}
-                        />
-                    </Route>
-                    <Route path="/dog/:breed">
-                        <Dog />
-                    </Route>
-                    <Route path="/submitdog">
-                        <SubmitDog dogList={dogList} sendDogForm={sendDogForm} />
-                    </Route>
-                    <Redirect path="/" redirect="/dogs" />
-                    <Otherwise path="/dogs" />
+                    <div className="main-content">
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/dogs">
+                            <DogList
+                                filterValue={filterValue}
+                                dogList={dogList}
+                                fetchDogImg={fetchDogImg}
+                            />
+                        </Route>
+                        <Route path="/dog/:breed">
+                            <Dog />
+                        </Route>
+                        <Route path="/submitdog">
+                            <SubmitDog dogList={dogList} sendDogForm={sendDogForm} />
+                        </Route>
+                        <Redirect path="/" redirect="/dogs" />
+                        <Otherwise path="/dogs" />
+                    </div>
                     <Footer />
                 </Router>
-                <MessageHandler
-                    messagesList={messagesList}
-                    setMessage={setMessage}
-                    removeMessage={removeMessage}
-                />
+                <MessageHandler messagesList={messagesList} callback={removeMessage} />
             </div>
         );
     }
 }
 
+// Redux connect
 export default connect(
     mapStateToProps,
     mapDispatchToProps

@@ -8,7 +8,6 @@ describe('Reducer Functions', () => {
             filterValue: '',
             dogList: [],
             dogListError: '',
-            submittedDogs: [],
             messagesList: []
         };
         expect(rootReducer()).toEqual(iniState);

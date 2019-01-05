@@ -2,17 +2,15 @@ import { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-const body = document.body;
-
 class DogTip extends Component {
     static propTypes = {
-        mousepos: PropTypes.array
+        mousepos: PropTypes.object
     };
 
     // Sets a classname and appends the tip element to the body
     componentDidMount() {
         this.tip.className = 'dog-tip';
-        body.appendChild(this.tip);
+        document.body.appendChild(this.tip);
     }
 
     // Create element to use as tooltip
@@ -20,7 +18,7 @@ class DogTip extends Component {
 
     // Remove the element from the body
     componentWillUnmount() {
-        body.removeChild(this.tip);
+        document.body.removeChild(this.tip);
     }
 
     render() {

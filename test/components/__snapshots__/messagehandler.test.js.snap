@@ -6,10 +6,11 @@ exports[`<MessageHandler /> renders the MessageHandler component 1`] = `
 >
   <Snackbar
     autoClose={true}
-    callback={[Function]}
+    hideCloseButton={false}
     id={131313}
     key="131313"
     message="Error uploading dog pic."
+    msToClose={3000}
     type="error"
   />
 </div>
@@ -17,6 +18,7 @@ exports[`<MessageHandler /> renders the MessageHandler component 1`] = `
 
 exports[`<MessageHandler /> should render a Snackbar child component 1`] = `
 <MessageHandler
+  callback={[Function]}
   messagesList={
     Array [
       Object {
@@ -33,9 +35,11 @@ exports[`<MessageHandler /> should render a Snackbar child component 1`] = `
     <Snackbar
       autoClose={true}
       callback={[Function]}
+      hideCloseButton={false}
       id={131313}
       key="131313"
       message="Testing an snackbar message component"
+      msToClose={3000}
       type="info"
     >
       <div

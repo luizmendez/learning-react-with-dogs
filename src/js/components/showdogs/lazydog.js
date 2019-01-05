@@ -18,10 +18,10 @@ class LazyDog extends Component {
     lazyCard = React.createRef();
 
     componentDidMount() {
-        // Set the listeners and run one time to know if the component is on the viewport sight
+        // Set the listeners and run one time to know if the component is inside the viewport
         this.wakeLazyDog();
         if (!this.state.visible) {
-            // On window scroll and resize check if the component is in the viewport sight
+            // On window scroll and resize check if the component is inside the viewport
             window.addEventListener('scroll', this.wakeLazyDog);
             window.addEventListener('resize', this.wakeLazyDog);
         }
@@ -33,7 +33,7 @@ class LazyDog extends Component {
     }
 
     componentDidUpdate(prev) {
-        // When the filterValue changes and dogCards are reorder, check if this component is in the viewport sight
+        // When the filterValue changes and dogCards are reorder, check if this component is inside the viewport
         if (prev.filterValue !== this.props.filterValue) this.wakeLazyDog();
     }
 
@@ -52,9 +52,9 @@ class LazyDog extends Component {
     };
 
     // Checks if the top of the element is in viewport sight
-    // Params: el (element) = element to check visibility
+    // @params {element} el - element to check visibility
     // Returns: bool of the element visibility
-    // TODO: check that any part of the component is on sight
+    // TODO: check that any part of the component is on sight not only the top to return true
     isElementVisible = el => {
         if (!el) return; // if there's no element return
         const b = el.getBoundingClientRect();
@@ -68,8 +68,7 @@ class LazyDog extends Component {
     };
 
     render() {
-        // If visible state is true render the children of the coponent,
-        // if not render a lazyCard div
+        // If visible state is true render the children of the component if not render a placeholder div
         return this.state.visible ? (
             this.props.children
         ) : (

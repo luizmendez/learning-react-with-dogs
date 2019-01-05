@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 class DogCard extends Component {
     static propTypes = {
-        dog: PropTypes.array
+        dog: PropTypes.object
     };
 
     state = {

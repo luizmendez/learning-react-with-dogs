@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 class Snackbar extends Component {
     static propTypes = {
-        id: PropTypes.number,
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         message: PropTypes.string,
-        callback: PropTypes.object,
+        callback: PropTypes.func,
         msToClose: PropTypes.number,
         autoClose: PropTypes.bool,
         type: PropTypes.string,
@@ -39,11 +39,12 @@ class Snackbar extends Component {
 
     // Sets the hide state in state and calls callback function
     closeSnackbar = () => {
+        const callback = this.props.callback ? () => this.props.callback(this.props) : null;
         this.setState(
             {
                 shouldHide: true
             },
-            this.props.callback
+            callback
         );
     };
 

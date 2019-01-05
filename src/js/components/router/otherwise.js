@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { RouterContext } from './router';
 import PropTypes from 'prop-types';
 
-// This component register a fallback path to be directed if the current path is not registered in the router
+// This component registers a fallback path to be directed if the current path is not registered in the router
 class Otherwise extends Component {
     static propTypes = {
         path: PropTypes.string

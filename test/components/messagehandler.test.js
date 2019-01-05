@@ -28,7 +28,7 @@ describe('<MessageHandler />', () => {
                 id: 131313
             }
         ];
-        const wrapper = mount(<MessageHandler messagesList={messagesList} />);
+        const wrapper = mount(<MessageHandler messagesList={messagesList} callback={noop} />);
         expect(wrapper.find('.snackbar').length).toBe(1);
         expect(wrapper).toMatchSnapshot();
     });

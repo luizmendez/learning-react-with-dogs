@@ -6,7 +6,7 @@
 
 -   Main component of the app
 -   Connects with redux store
--   Get Redux's state and actions as props
+-   Get Redux state and actions as props
 -   Retrieves the dog list either from localStorage or an API request
 -   Renders all the app content
 -   Renders Router components
@@ -19,19 +19,19 @@
 -   High Order Component that renders the appropriate component depending on the current location
 -   Delegates what to show depending on the current location path
 -   Gets the current location path and divides it into path parts
--   Have three types of routing components:
-    -   `<Route />`: compares the current path with route path and render its children if there's a match
-    -   `<Redirect />`: compares the current path with the redirect prop and changes the location if there is a match
+-   Has three types of routing components:
+    -   `<Route />`: compares the current path with its path prop and renders its children if they match
+    -   `<Redirect />`: compares the current path with the redirect prop and changes the location if they match
     -   `<Otherwise />`: redirects to the given path if the current location doesn't match any registered path
 -   The values of Routes, Redirects and Otherwise are registered in the router internals
 -   Reads params in the URI to render sub paths (dog/:dogbreed - dog/shiba)
 -   Creates a listener on history.pushState to be able to manage routing without having to reload the page
--   Uses **React Context** to manage and share state
+-   Uses **React Context** to manage and share state, avoiding the use of 3rd party libraries as a way to learn state management just using React
 
 #### `<Route />`
 
 -   Register a path on the router
--   Compares the current path with the route path and if there's a match render the route children 
+-   Compares the current path with the route path and if there's a match render the route children
 
 #### `<Redirect />`
 
@@ -48,7 +48,7 @@
 -   Gets current location from react context
 -   Checks if the href attribute of the link is internal or complete URL
 -   If the href is internal calls for a history.pushState
--   If the href is a complete URL (mostly external links) sets `window.location` or calls `window.open()` depending on the link's target attribute
+-   If the href is external sets `window.location` or calls `window.open()` depending on the link's target attribute
 
 ### Showdogs
 
@@ -67,7 +67,7 @@
 
 #### `<LazyDog />`
 
--   High order component 
+-   High order component
 -   Checks if the component is inside the viewport
 -   If the card is in sight render the children
 -   Otherwise render an empty div with the dimensions of the children, this to prevent jumps while scrolling when the children are rendering

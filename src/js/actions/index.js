@@ -62,8 +62,8 @@ export function fetchDogs(url = 'https://dog.ceo/api/breeds/list/all') {
 export function fetchDogImg(dogBreed, dogList) {
     const imgEndpoint = `https://dog.ceo/api/breed/${dogBreed}/images/random`;
     const dog = dogList.find(dog => dog.name === dogBreed);
-    return dispatch => {
-        return fetch(imgEndpoint)
+    return dispatch =>
+        fetch(imgEndpoint)
             .then(r => {
                 if (r.status >= 400) {
                     throw new Error('Unable to fetch dog image url.');
@@ -90,7 +90,6 @@ export function fetchDogImg(dogBreed, dogList) {
                 });
                 dispatch(setDogImg(dogWithImgError, newDogList));
             });
-    };
 }
 
 // Calls action dispatch to set dogList on storage
@@ -159,10 +158,10 @@ export function setMessage(msg) {
 
 // Removes a message from message list in storage
 // @param {string} error - the error that ocurred
-export function removeMessage(messageId) {
+export function removeMessage(message) {
     return {
         type: types.REMOVE_MESSAGE,
-        messageId
+        messageId: message.id
     };
 }
 
@@ -170,8 +169,8 @@ export function removeMessage(messageId) {
 // @param {formData} data - the data to send to the server
 // ** At the moment this function always returns error as the API still does not exist **
 export function sendDogForm(data) {
-    return dispatch => {
-        return fetch('http://localhost:8080/api/senddogpic', {
+    return dispatch =>
+        fetch('http://localhost:8080/api/senddogpic', {
             mode: 'no-cors',
             method: 'POST',
             body: data
@@ -199,5 +198,4 @@ export function sendDogForm(data) {
                     })
                 );
             });
-    };
 }

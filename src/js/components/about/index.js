@@ -13,10 +13,12 @@ function About() {
                 </p>
                 <h3>What does the app do?</h3>
                 <p>
-                    The app fetches data from DogAPI and shows it in a simple way as an images list.
-                    The list can be filtered, contains a lazy load component for the dogs images and
-                    you can submit a dog picture through a form. It implements a handmade router and
-                    manages state with Redux and Context.
+                    The app fetches data from DogAPI and shows it in a simple way as a list of
+                    images. The list can be filtered, contains a lazy load component for the dogs
+                    images and you can submit a dog picture through a form. Redux is implemented as
+                    a state manager to be able to pass and set state between components. It also
+                    implements a handmade router that manages state with react context so it can be
+                    used in any React project.
                 </p>
                 <p>
                     For a more detailed description of the app read the{' '}
