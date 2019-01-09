@@ -30,7 +30,7 @@ exports[`<Snackbar /> renders the Snackbar component 1`] = `
 </div>
 `;
 
-exports[`<Snackbar /> should call callback if exists after closing 1`] = `""`;
+exports[`<Snackbar /> should call callback after closing 1`] = `""`;
 
 exports[`<Snackbar /> should not render if close button is clicked 1`] = `""`;
 

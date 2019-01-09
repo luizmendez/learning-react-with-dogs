@@ -14,7 +14,7 @@ class DogPic extends Component {
     };
 
     componentDidMount() {
-        // if the component have an imgURL prop wait for the image to load
+        // if the component has an imgURL prop wait for the image to load
         if (this.props.imgURL) this.waitImgLoad();
     }
 

@@ -1,8 +1,6 @@
 import types from '../constants/action-types';
 
-// Call action dispatch to set the filter string of search
-// Params:
-//  filter (string) = filter searchword
+// Call action dispatch to set the filterValue string when filtering the dog list
 export function setDogFilter(filterValue) {
     return {
         type: types.SET_DOG_FILTER,
@@ -10,8 +8,8 @@ export function setDogFilter(filterValue) {
     };
 }
 
-// Look for dogList in localStorage, if not found fetches list through API,
-// when dogList is retrieved calls function to dispatch action to set list in store
+// Looks for a key in localStorage and calls an action to set it in store
+// If key don't exist calls an action to fetch it
 export function getDogs() {
     const dogsFromLocalStorage = getFromLocalStorage('dogList');
     if (dogsFromLocalStorage) {
@@ -20,11 +18,10 @@ export function getDogs() {
     return fetchDogs();
 }
 
-// Look key from local storage and return parsed object
-// Params:
-//  key (string) = key of param to look on local storage
-//  parse (bool) = if value retirved must be parsed before returning [default = true]
-// Returns: Object of what was found in local storage
+// Looks for a key in localStorage and returns its value
+// @param {string} key - key to look for
+// @param {bool} parse - should the retrieved value be parsed
+// Returns: whatever was found in local storage
 export function getFromLocalStorage(key, parse = true) {
     const dogs = localStorage.getItem(key)
         ? parse
@@ -34,13 +31,12 @@ export function getFromLocalStorage(key, parse = true) {
     return dogs;
 }
 
-// Fetch dog list from API and format it to an array of Objects,
-// calling the actions to set dogList or error corresponding to the fetch response
-// Params:
-//  url(string) = url to api [default = all dogs breed url]
+// Fetch dog list from API and format it to an array of objects,
+// calls the actions to set the list or error corresponding to the fetch response
+// @params {string} url - url to API
 export function fetchDogs(url = 'https://dog.ceo/api/breeds/list/all') {
-    return dispatch => {
-        return fetch(url)
+    return dispatch =>
+        fetch(url)
             .then(r => {
                 if (r.status >= 400) {
                     throw new Error('Unable to fetch dog list.');
@@ -57,19 +53,17 @@ export function fetchDogs(url = 'https://dog.ceo/api/breeds/list/all') {
                 dispatch(setDogList(dogList));
             })
             .catch(error => dispatch(setDogListError(error.toString())));
-    };
 }
 
 // Fetch dog image from API calling the actions to set dog image url
 // or error corresponding to the fetch response
-// Params:
-//  dogBreed(string) = breed of the dog to fetch image
-//  dogList(array) = array of objects of dogs
+// @param {string} dogBreed - breed of the dog to fetch image
+// @param {array} dogList - array of objects of dogs
 export function fetchDogImg(dogBreed, dogList) {
     const imgEndpoint = `https://dog.ceo/api/breed/${dogBreed}/images/random`;
     const dog = dogList.find(dog => dog.name === dogBreed);
-    return dispatch => {
-        return fetch(imgEndpoint)
+    return dispatch =>
+        fetch(imgEndpoint)
             .then(r => {
                 if (r.status >= 400) {
                     throw new Error('Unable to fetch dog image url.');
@@ -96,12 +90,10 @@ export function fetchDogImg(dogBreed, dogList) {
                 });
                 dispatch(setDogImg(dogWithImgError, newDogList));
             });
-    };
 }
 
 // Calls action dispatch to set dogList on storage
-// Params:
-//  dogList (array) = an array of objects containing the dogList
+// @params {array} dogList - array of objects containing the dog list
 export function setDogList(dogList) {
     // sets the new list in local storage
     localStorage.setItem('dogList', JSON.stringify(dogList));
@@ -113,8 +105,7 @@ export function setDogList(dogList) {
 }
 
 // If there is an error retrieving the dogList call action to set error on store
-// Params:
-//  error (string) = the error that ocurred
+// @param {string} error - the error that ocurred
 function setDogListError(dogListError) {
     return {
         type: types.SET_DOG_LIST_ERROR,
@@ -123,8 +114,7 @@ function setDogListError(dogListError) {
 }
 
 // Calls action dispatch to set dog image on storage
-// Params:
-//  dog (obj) = object of the dog to replace in storage
+// @param {object} dog - object of the dog to replace in storage
 export function setDogImg(dog, dogList) {
     // sets the new list in local storage
     localStorage.setItem('dogList', JSON.stringify(dogList));
@@ -136,8 +126,7 @@ export function setDogImg(dog, dogList) {
 }
 
 // Calls action dispatch to set dog image error on storage
-// Params:
-//  dog (obj) = object of the dog to replace in storage
+// @params {object} dog - object of the dog to replace in storage
 export function setDogImgError(dog, dogList) {
     // sets the new list in local storage
     localStorage.setItem('dogList', JSON.stringify(dogList));
@@ -149,8 +138,7 @@ export function setDogImgError(dog, dogList) {
 }
 
 // Call action to set the submitted dog in the store
-// Params:
-//  submittedDog (formDate) = formData Object of the submitted dog
+// @params {FormData} submittedDog - FormData object of the submitted dog
 function setSubmittedDog(submittedDog) {
     return {
         type: types.SET_SUBMITTED_DOG,
@@ -158,9 +146,8 @@ function setSubmittedDog(submittedDog) {
     };
 }
 
-// Handles messages list in store
-// Params:
-//  message (object) = object with message attributes: message(string), type(string)
+// Handles message list in store
+// @param {object} message - object with message attributes
 export function setMessage(msg) {
     const message = { ...msg, id: Math.floor(Math.random() * Math.floor(999999999)) };
     return {
@@ -170,21 +157,20 @@ export function setMessage(msg) {
 }
 
 // Removes a message from message list in storage
-// Params:
-//  error (string) = the error that ocurred
-export function removeMessage(message_id) {
+// @param {string} error - the error that ocurred
+export function removeMessage(message) {
     return {
         type: types.REMOVE_MESSAGE,
-        message_id
+        messageId: message.id
     };
 }
 
 // Sends form to backend to be processed and dispatch success or error action
-// Params:
-//  data (form data) = the form data of the data to send
+// @param {formData} data - the data to send to the server
+// ** At the moment this function always returns error as the API still does not exist **
 export function sendDogForm(data) {
-    return dispatch => {
-        return fetch('http://localhost:8080/api/senddogpic', {
+    return dispatch =>
+        fetch('http://localhost:8080/api/senddogpic', {
             mode: 'no-cors',
             method: 'POST',
             body: data
@@ -196,11 +182,20 @@ export function sendDogForm(data) {
                 return r.json();
             })
             .then(r => {
-                dispatch(setMessage({ message: 'Dog submitted with success.', type: 'success' }));
+                dispatch(
+                    setMessage({
+                        message: 'Dog submitted with success.',
+                        type: 'success'
+                    })
+                );
                 dispatch(setSubmittedDog(r.message));
             })
             .catch(error => {
-                dispatch(setMessage({ message: error.toString(), type: 'danger' }));
+                dispatch(
+                    setMessage({
+                        message: error.toString(),
+                        type: 'danger'
+                    })
+                );
             });
-    };
 }

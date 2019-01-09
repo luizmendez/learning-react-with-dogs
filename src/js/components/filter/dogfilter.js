@@ -7,33 +7,31 @@ class DogFilter extends Component {
 
     // Resets the input field clearing the value in the store
     resetFilter = () => {
-        this.setState({ filterValue: '' });
-        this.props.updateFilterValue('');
-        this.setState({
-            showReset: false
-        });
+        this.setState(
+            {
+                showReset: false
+            },
+            () => this.props.updateFilterValue('')
+        );
     };
 
     // Updates the filter value in store and removes the reset button if there's a truthy filter value
     handleChange = e => {
         const val = e.target.value;
-        // Update filterValue through action props
-        this.props.updateFilterValue(val);
         // Only show reset button when there's a value
-        this.setState({
-            showReset: !!val
-        });
-    };
-
-    // Don't submit the form
-    handleSubmit = e => {
-        e.preventDefault();
+        this.setState(
+            {
+                showReset: !!val
+            },
+            // Update filterValue through action props
+            () => this.props.updateFilterValue(val)
+        );
     };
 
     render() {
         // Renders the filter form
         return (
-            <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
+            <form className="form-inline my-2 my-lg-0">
                 <input
                     className="dog-filter-search form-control mr-sm-2"
                     value={this.props.filterValue}

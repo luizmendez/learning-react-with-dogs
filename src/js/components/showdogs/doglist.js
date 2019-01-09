@@ -3,7 +3,7 @@ import DogCard from './dogcard';
 import LazyDog from './lazydog';
 import PropTypes from 'prop-types';
 
-class AllDogs extends Component {
+class DogList extends Component {
     static propTypes = {
         dogList: PropTypes.array,
         dogListError: PropTypes.string,
@@ -13,10 +13,10 @@ class AllDogs extends Component {
     // Filters the dog list regarding the value of filterValue
     filterDogs = () => {
         const { filterValue, dogList } = this.props;
-        // if the dogList is setted and there is a filterValue return a new array
+        // if the dogList is set and there is a filterValue return a new array
         // by using array.filter matching the dog breed name to the filterValue,
         // if there is not a filterValue setted return the complete dogList
-        return !!dogList && !!filterValue
+        return dogList.length && filterValue
             ? dogList.filter(dog => dog.name.includes(filterValue))
             : dogList;
     };
@@ -25,7 +25,7 @@ class AllDogs extends Component {
         const { dogList, dogListError, filterValue, fetchDogImg } = this.props;
         const filteredDogs = this.filterDogs();
 
-        // If there is no error and the dogList is setted, iterate the dogList and render each dog
+        // If there is no error and the dogList is set, iterate the dogList and render each dog
         // as a DogCard component wrapped in LazyDog HOC
         return (
             <div className="cards-container">
@@ -47,4 +47,4 @@ class AllDogs extends Component {
     }
 }
 
-export default AllDogs;
+export default DogList;

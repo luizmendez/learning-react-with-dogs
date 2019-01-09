@@ -64,7 +64,7 @@ class Link extends Component {
         // Renders an <a> element with the appropiate href, target and clickEvent
         return (
             <a
-                href=""
+                href={this.props.href}
                 onClick={this.handleClick}
                 className={`${this.props.className ? this.props.className : ''}${
                     isCurrentPath ? ' current-link' : ''

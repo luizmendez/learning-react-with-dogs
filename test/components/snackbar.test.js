@@ -6,16 +6,16 @@ jest.useFakeTimers();
 const noop = () => {};
 
 const props = {
+    id: 1,
     message: '',
     type: '',
     msToClose: 0,
-    callback: noop,
-    removeMessage: noop
+    callback: noop
 };
 
 describe('<Snackbar />', () => {
     it('renders the Snackbar component', () => {
-        const wrapper = shallow(<Snackbar message="Holis World" />);
+        const wrapper = shallow(<Snackbar id="1" message="Holis World" />);
         expect(wrapper.find('.snackbar').length).toBe(1);
         expect(wrapper.text()).toMatch('Holis World');
         expect(wrapper).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('<Snackbar />', () => {
 
     it('should render a child component', () => {
         const wrapper = shallow(
-            <Snackbar>
+            <Snackbar id={1}>
                 <span>Holis</span>
             </Snackbar>
         );
@@ -33,7 +33,7 @@ describe('<Snackbar />', () => {
     });
 
     it('applies the given type as a css class', () => {
-        const wrapper = shallow(<Snackbar message="Holis World" type="warning" />);
+        const wrapper = shallow(<Snackbar id="1" message="Holis World" type="warning" />);
         expect(wrapper.find('.alert-warning').length).toBe(1);
         expect(wrapper).toMatchSnapshot();
     });
@@ -45,7 +45,7 @@ describe('<Snackbar />', () => {
     });
 
     it('should not render if close button is clicked', () => {
-        const wrapper = shallow(<Snackbar message="Holis" callback={noop} />);
+        const wrapper = shallow(<Snackbar id="1" message="Holis" />);
         const closeBtn = wrapper.find('button');
         expect(wrapper.find('.snackbar').length).toBe(1);
         closeBtn.simulate('click');
@@ -53,25 +53,26 @@ describe('<Snackbar />', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should call callback if exists after closing', () => {
+    it('should call callback after closing', () => {
         const mockCallback = jest.fn();
-        const wrapper = shallow(<Snackbar message="Holis" callback={mockCallback} />);
+        const wrapper = shallow(<Snackbar id="1" message="Holis" callback={mockCallback} />);
         const closeBtn = wrapper.find('button');
         closeBtn.simulate('click');
         expect(mockCallback).toBeCalledTimes(1);
         expect(wrapper).toMatchSnapshot();
     });
 
-    /*** Test with problem calling callback when advacing time, tested in UI and working ***/
-    //it('should close snackbar after 3 seconds', () => {
-    //    const wrapper = shallow(<Snackbar message="Holis" callback={noop} msToClose={3000} />);
-    //    expect(wrapper.find('.snackbar').length).toBe(1);
-    //    jest.advanceTimersByTime(3001);
-    //    expect(wrapper.find('.snackbar').length).toBe(0);
-    //});
+    it('should close snackbar after 3 seconds', () => {
+        const wrapper = shallow(
+            <Snackbar id="1" message="Holis" callback={noop} msToClose={3000} />
+        );
+        expect(wrapper.find('.snackbar').length).toBe(1);
+        jest.advanceTimersByTime(3010);
+        expect(wrapper.find('.snackbar').length).toBe(0);
+    });
 
     it('should not show close button', () => {
-        const wrapper = shallow(<Snackbar message="Holis" showClose={false} />);
+        const wrapper = shallow(<Snackbar id="1" message="Holis" showClose={false} />);
         expect(wrapper.find('.btn').length).toBe(0);
     });
 });

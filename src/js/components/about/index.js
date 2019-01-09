@@ -8,14 +8,30 @@ function About() {
             <div>
                 <h3>What is this?</h3>
                 <p>
-                    Personal project as a way to learning while coding. The main focus of learning
-                    was React, Redux, Test Driven Development with Jest and as a final step NodeJs.
+                    Personal project as a way to learn while coding. The main focus was learning
+                    React, Redux, Test Driven Development with Jest and as a final step NodeJs.
                 </p>
-                <h3>What the app does?</h3>
+                <h3>What does the app do?</h3>
                 <p>
-                    The app manages data from DogAPI and shows it in a simple way in the app. For
-                    more detailed description of the app specs go to the App and Components
-                    description section.
+                    The app fetches data from DogAPI and shows it in a simple way as a list of
+                    images. The list can be filtered, contains a lazy load component for the dogs
+                    images and you can submit a dog picture through a form. Redux is implemented as
+                    a state manager to be able to pass and set state between components. It also
+                    implements a handmade router that manages state with react context so it can be
+                    used in any React project.
+                </p>
+                <p>
+                    For a more detailed description of the app read the{' '}
+                    <Link
+                        href="https://github.com/luizmendez/learning-react-with-dogs/Docs/"
+                        target="_blank">
+                        documentation
+                    </Link>{' '}
+                    in the project&#39;s{' '}
+                    <Link href="https://github.com/luizmendez/learning-react-with-dogs">
+                        github page
+                    </Link>
+                    .
                 </p>
             </div>
             <h3>Links</h3>
@@ -39,6 +55,11 @@ function About() {
                 <li>
                     <Link href="https://redux.js.org/" target="_blank">
                         Redux
+                    </Link>
+                </li>
+                <li>
+                    <Link href="https://https://jestjs.io/" target="_blank">
+                        Jest
                     </Link>
                 </li>
             </ul>
