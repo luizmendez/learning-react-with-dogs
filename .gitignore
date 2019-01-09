@@ -1,0 +1,12 @@
+node_modules
+TEST-App.xml
+npm-debug.log
+.DS_Store
+*/.DS_Store
+**/.DS_Store
+._.DS_Store
+yarn-error.log
+
+# Build artifacts
+dist/*
+build/*

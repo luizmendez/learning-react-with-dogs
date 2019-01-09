@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Snackbar /> applies the given type as a css class 1`] = `
+<div
+  className="snackbar alert alert-dismissible alert-warning"
+>
+  Holis World
+  <button
+    className="close close-snackbar"
+    onClick={[Function]}
+    type="button"
+  >
+    ×
+  </button>
+</div>
+`;
+
+exports[`<Snackbar /> renders the Snackbar component 1`] = `
+<div
+  className="snackbar alert alert-dismissible alert-info"
+>
+  Holis World
+  <button
+    className="close close-snackbar"
+    onClick={[Function]}
+    type="button"
+  >
+    ×
+  </button>
+</div>
+`;
+
+exports[`<Snackbar /> should call callback after closing 1`] = `""`;
+
+exports[`<Snackbar /> should not render if close button is clicked 1`] = `""`;
+
+exports[`<Snackbar /> should not render if there is no message 1`] = `""`;
+
+exports[`<Snackbar /> should render a child component 1`] = `
+<div
+  className="snackbar alert alert-dismissible alert-info"
+>
+  <span>
+    Holis
+  </span>
+  <button
+    className="close close-snackbar"
+    onClick={[Function]}
+    type="button"
+  >
+    ×
+  </button>
+</div>
+`;
