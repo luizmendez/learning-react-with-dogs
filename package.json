@@ -1,6 +1,6 @@
 {
     "name": "learning-react",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Learning React with Dogs",
     "main": "src/js/index.js",
     "repository": "git@github.com:luizmendez/learning-react-with-dogs.git",
@@ -50,10 +50,15 @@
         "react-redux": "^6.0.0"
     },
     "jest": {
-        "setupFiles": ["jest-localstorage-mock", "./tools/setupJest.js"],
+        "setupFiles": [
+            "jest-localstorage-mock",
+            "./tools/setupJest.js"
+        ],
         "moduleNameMapper": {
             "^components[/**/](.+)": "<rootDir>/src/js/components/$1"
         },
-        "snapshotSerializers": ["enzyme-to-json/serializer"]
+        "snapshotSerializers": [
+            "enzyme-to-json/serializer"
+        ]
     }
 }
