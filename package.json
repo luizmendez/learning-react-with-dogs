@@ -8,6 +8,7 @@
     "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.2.2",
+        "@babel/node": "^7.2.2",
         "@babel/plugin-proposal-class-properties": "^7.1.0",
         "@babel/plugin-transform-runtime": "^7.2.0",
         "@babel/preset-env": "^7.1.5",
@@ -19,13 +20,16 @@
         "enzyme": "^3.8.0",
         "enzyme-adapter-react-16": "^1.7.1",
         "enzyme-to-json": "^3.3.5",
+        "express": "^4.16.4",
         "file-loader": "^2.0.0",
+        "helmet": "^3.15.0",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "jest": "^23.6.0",
         "jest-fetch-mock": "^2.1.0",
         "jest-localstorage-mock": "^2.3.0",
         "node": "^11.1.0",
+        "nodemon": "^1.18.9",
         "prettier": "^1.15.2",
         "prop-types": "^15.6.2",
         "react": "^16.6.1",
@@ -36,6 +40,7 @@
         "redux-thunk": "^2.3.0",
         "regenerator-runtime": "^0.13.1",
         "style-loader": "^0.23.1",
+        "supertest": "^3.4.2",
         "webpack": "^4.25.1",
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.1.10"
@@ -44,10 +49,17 @@
         "start": "webpack-dev-server --mode development --open --hot",
         "build": "webpack --mode production",
         "test": "jest test --verbose false",
-        "test-watch": "jest test --verbose false --watch"
+        "test-watch": "jest test --verbose false --watch",
+        "start-api": "nodemon --exec babel-node api/init-server.js"
     },
     "dependencies": {
-        "react-redux": "^6.0.0"
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.5",
+        "dotenv": "^6.2.0",
+        "dotenv-extended": "^2.3.0",
+        "mariadb": "^2.0.2-rc",
+        "react-redux": "^6.0.0",
+        "sequelize": "^5.0.0-beta.16"
     },
     "jest": {
         "setupFiles": [
