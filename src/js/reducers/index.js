@@ -13,18 +13,6 @@ const defaultAction = {
     type: ''
 };
 
-// maps the dog list and compares breeds with the dog object that is received,
-// if there's a match return dog object instead of the object in the list
-// @param {object} dog - object with the dog data to inject
-// @param {array} dogList - array of objects of the dog list
-const injectDog = (dog, dogList) =>
-    dogList.map(d => {
-        if (d.name === dog.name) {
-            return dog;
-        }
-        return d;
-    });
-
 const rootReducer = (state = initialState, action = defaultAction) => {
     switch (action.type) {
         case types.SET_DOG_FILTER:
@@ -36,18 +24,6 @@ const rootReducer = (state = initialState, action = defaultAction) => {
         case types.SET_DOG_LIST_ERROR:
             // sets the error response of fetching the dog list in store
             return { ...state, dogListError: action.dogListError };
-        case types.SET_DOG_IMG: {
-            // get a dog list with the appropiate dog object updated
-            const dogList = injectDog(action.dog, state.dogList);
-            // sets dog list with image on store
-            return { ...state, dogList };
-        }
-        case types.SET_DOG_IMG_ERROR: {
-            // get a dog list with the appropiate dog object updated
-            const dogList = injectDog(action.dog, state.dogList);
-            // sets dog list with image error on store
-            return { ...state, dogList };
-        }
         case types.SET_MESSAGE: {
             // sets message list with the new message in store
             return {

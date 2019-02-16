@@ -27,7 +27,6 @@ const getImagesURL = breed => `https://dog.ceo/api/breed/${breed}/images`;
 export async function getDogsFromAPI() {
     const dogCount = await models.Dog.count();
     if (dogCount) return;
-    console.log(dogCount);
     const urlDogs = 'https://dog.ceo/api/breeds/list/all';
     const dogs = await requestURL(urlDogs);
     return Promise.all(

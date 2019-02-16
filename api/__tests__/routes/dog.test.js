@@ -16,8 +16,6 @@ describe('/dogs path should', () => {
                     expect.objectContaining({
                         id: expect.any(Number),
                         breed: expect.any(String),
-                        createdAt: expect.any(String),
-                        updatedAt: expect.any(String),
                         images: expect.any(Array)
                     })
                 );

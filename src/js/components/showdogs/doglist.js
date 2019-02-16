@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 class DogList extends Component {
     static propTypes = {
         dogList: PropTypes.array,
-        dogListError: PropTypes.string,
-        fetchDogImg: PropTypes.func
+        dogListError: PropTypes.string
     };
 
     // Filters the dog list regarding the value of filterValue
@@ -17,12 +16,12 @@ class DogList extends Component {
         // by using array.filter matching the dog breed name to the filterValue,
         // if there is not a filterValue setted return the complete dogList
         return dogList.length && filterValue
-            ? dogList.filter(dog => dog.name.includes(filterValue))
+            ? dogList.filter(dog => dog.breed.includes(filterValue))
             : dogList;
     };
 
     render() {
-        const { dogList, dogListError, filterValue, fetchDogImg } = this.props;
+        const { dogList, dogListError, filterValue } = this.props;
         const filteredDogs = this.filterDogs();
 
         // If there is no error and the dogList is set, iterate the dogList and render each dog
@@ -33,11 +32,9 @@ class DogList extends Component {
                 {filteredDogs &&
                     filteredDogs.map(dog => (
                         <LazyDog
-                            key={`lazy-${dog.name}`}
-                            dogBreed={dog.name}
+                            key={dog.id}
+                            dogBreed={dog.breed}
                             filterValue={filterValue}
-                            imgURL={dog.imgURL}
-                            fetchDogImg={fetchDogImg}
                             dogList={dogList}>
                             <DogCard dog={dog} />
                         </LazyDog>

@@ -48,8 +48,10 @@
     "scripts": {
         "start": "webpack-dev-server --mode development --open --hot",
         "build": "webpack --mode production",
+        "cleanup": "rm -rf ./uploads",
+        "pretest": "yarn cleanup",
+        "posttest": "yarn cleanup",
         "test": "jest test --verbose false",
-        "test-watch": "jest test --verbose false --watch",
         "start-api": "nodemon --exec babel-node api/init-server.js"
     },
     "dependencies": {
@@ -58,6 +60,7 @@
         "dotenv": "^6.2.0",
         "dotenv-extended": "^2.3.0",
         "mariadb": "^2.0.2-rc",
+        "multer": "^1.4.1",
         "react-redux": "^6.0.0",
         "sequelize": "^5.0.0-beta.16"
     },

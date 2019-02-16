@@ -8,44 +8,33 @@ describe('Dog actions', () => {
         fetch.resetMocks();
     });
     const apiURL = 'https://dog.ceo/api/breeds/list/all';
-    const dogListWithoutImages = [
+    const dogList = [
         {
-            name: 'affenpinscher',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
+            breed: 'affenpinscher',
+            id: 1,
+            images: [
+                'https://images.dog.ceo/breeds/affenpinscher/n02110627_10147.jpg',
+                'https://images.dog.ceo/breeds/affenpinscher/n02110627_10148.jpg',
+                'https://images.dog.ceo/breeds/affenpinscher/n02110627_10149.jpg'
+            ]
         },
         {
             name: 'african',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
+            id: 2,
+            images: [
+                'https://images.dog.ceo/breeds/african/n02110627_10147.jpg',
+                'https://images.dog.ceo/breeds/african/n02110627_10148.jpg',
+                'https://images.dog.ceo/breeds/african/n02110627_10149.jpg'
+            ]
         },
         {
             name: 'airedale',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
-        }
-    ];
-    const dogListWithImages = [
-        {
-            name: 'affenpinscher',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
-        },
-        {
-            name: 'african',
-            subBreed: [],
-            imgURL: '',
-            imgError: ''
-        },
-        {
-            name: 'airedale',
-            subBreed: [],
-            imgURL: 'https://images.dog.ceo/breeds/airedale/n02096051_1736.jpg',
-            imgError: ''
+            id: 3,
+            images: [
+                'https://images.dog.ceo/breeds/airedale/n02110627_10147.jpg',
+                'https://images.dog.ceo/breeds/airedale/n02110627_10148.jpg',
+                'https://images.dog.ceo/breeds/airedale/n02110627_10149.jpg'
+            ]
         }
     ];
 
@@ -61,24 +50,17 @@ describe('Dog actions', () => {
     it('Should return the dog list action', () => {
         const dogListAction = {
             type: types.SET_DOG_LIST,
-            dogList: dogListWithoutImages
+            dogList
         };
-        expect(action.setDogList(dogListWithoutImages)).toEqual(dogListAction);
+        expect(action.setDogList(dogList)).toEqual(dogListAction);
     });
 
     it('Should fetch dog list', () => {
-        const apiResponse = JSON.stringify({
-            status: 'success',
-            message: {
-                affenpinscher: [],
-                african: [],
-                airedale: []
-            }
-        });
+        const apiResponse = JSON.stringify(dogList);
 
         const expectedAction = {
             type: types.SET_DOG_LIST,
-            dogList: dogListWithoutImages
+            dogList: dogList
         };
 
         fetch.mockResponseOnce(apiResponse);
@@ -106,66 +88,15 @@ describe('Dog actions', () => {
 
     it('Should return dogList if it is in Local Storage', () => {
         const KEY = 'dogList';
-        const dogListString = JSON.stringify(dogListWithImages);
+        const dogListString = JSON.stringify(dogList);
         localStorage.setItem(KEY, dogListString);
         expect(localStorage.__STORE__[KEY]).toEqual(dogListString);
-        expect(action.getFromLocalStorage('dogList')).toEqual(dogListWithImages);
+        expect(action.getFromLocalStorage('dogList')).toEqual(dogList);
     });
 
     it('Should return falsy if dogList is not in Local Storage', () => {
         const KEY = 'dogList';
         expect(localStorage.__STORE__[KEY]).toBeFalsy();
         expect(action.getFromLocalStorage(KEY)).toBeFalsy();
-    });
-
-    it('Should fetch dog image and call dispatch action to set it to the store', () => {
-        const dogBreed = 'airedale';
-        const imgURL = 'https://images.dog.ceo/breeds/airedale/n02096051_1736.jpg';
-        const apiResponse = JSON.stringify({
-            status: 'success',
-            message: imgURL
-        });
-
-        const expectedAction = {
-            type: types.SET_DOG_IMG,
-            dog: {
-                name: dogBreed,
-                imgURL,
-                imgError: '',
-                subBreed: []
-            }
-        };
-
-        fetch.mockResponseOnce(apiResponse);
-        const store = mockStore({
-            filterValue: '',
-            dogList: dogListWithoutImages,
-            dogListError: ''
-        });
-
-        return store.dispatch(action.fetchDogImg(dogBreed, dogListWithoutImages)).then(() => {
-            expect(store.getActions()[0]).toEqual(expectedAction);
-        });
-    });
-
-    it('Should fail and return error fetching dog image from api', () => {
-        const dogBreed = 'airedale';
-        const expectedAction = {
-            type: types.SET_DOG_IMG,
-            dog: {
-                name: dogBreed,
-                imgURL: '',
-                imgError: 'Error: Unable to fetch dog image.',
-                subBreed: []
-            }
-        };
-
-        const error = 'Unable to fetch dog image.';
-        fetch.mockReject(new Error(error));
-        const store = mockStore({ filterValue: '', dogList: [], dogListError: '' });
-
-        return store.dispatch(action.fetchDogImg(dogBreed, dogListWithoutImages)).then(() => {
-            expect(store.getActions()[0]).toEqual(expectedAction);
-        });
     });
 });

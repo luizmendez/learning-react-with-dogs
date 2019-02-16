@@ -34,7 +34,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     setDogFilter: actions.setDogFilter, // Set the values of the filter to be applied to the dog list
     getDogs: actions.getDogs, // Retrieves the dogList
-    fetchDogImg: actions.fetchDogImg, // Fetch the dog picture url from api
     sendDogForm: actions.sendDogForm, // Send the information of the submitDog form to an api
     setMessage: actions.setMessage, // Sets messages on list
     removeMessage: actions.removeMessage // Removes messages on list
@@ -49,7 +48,6 @@ class App extends Component {
 
         setDogFilter: PropTypes.func,
         getDogs: PropTypes.func,
-        fetchDogImg: PropTypes.func,
         sendDogForm: PropTypes.func,
         setMessage: PropTypes.func,
         removeMessage: PropTypes.func
@@ -65,7 +63,6 @@ class App extends Component {
             dogList, // List of dogs as an array of objects
             setDogFilter, // Action to set the filter value
             filterValue, // Value of the filter to the dogList
-            fetchDogImg, // Action to fetch the dog image url
             sendDogForm, // Action to send the submitDog form data
             messagesList, // Messages List as an array of objects
             removeMessage // Action to reomve a message to the list
@@ -82,11 +79,7 @@ class App extends Component {
                             <About />
                         </Route>
                         <Route path="/dogs">
-                            <DogList
-                                filterValue={filterValue}
-                                dogList={dogList}
-                                fetchDogImg={fetchDogImg}
-                            />
+                            <DogList filterValue={filterValue} dogList={dogList} />
                         </Route>
                         <Route path="/dog/:breed">
                             <Dog />

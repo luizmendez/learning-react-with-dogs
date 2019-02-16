@@ -34,7 +34,7 @@ export function getFromLocalStorage(key, parse = true) {
 // Fetch dog list from API and format it to an array of objects,
 // calls the actions to set the list or error corresponding to the fetch response
 // @params {string} url - url to API
-export function fetchDogs(url = 'https://dog.ceo/api/breeds/list/all') {
+export function fetchDogs(url = 'http://localhost:3000/dogs') {
     return dispatch =>
         fetch(url)
             .then(r => {
@@ -44,52 +44,9 @@ export function fetchDogs(url = 'https://dog.ceo/api/breeds/list/all') {
                 return r.json();
             })
             .then(r => {
-                const dogList = Object.keys(r.message).map(dog => ({
-                    name: dog,
-                    subBreed: r.message[dog],
-                    imgURL: '',
-                    imgError: ''
-                }));
-                dispatch(setDogList(dogList));
+                dispatch(setDogList(r));
             })
             .catch(error => dispatch(setDogListError(error.toString())));
-}
-
-// Fetch dog image from API calling the actions to set dog image url
-// or error corresponding to the fetch response
-// @param {string} dogBreed - breed of the dog to fetch image
-// @param {array} dogList - array of objects of dogs
-export function fetchDogImg(dogBreed, dogList) {
-    const imgEndpoint = `https://dog.ceo/api/breed/${dogBreed}/images/random`;
-    const dog = dogList.find(dog => dog.name === dogBreed);
-    return dispatch =>
-        fetch(imgEndpoint)
-            .then(r => {
-                if (r.status >= 400) {
-                    throw new Error('Unable to fetch dog image url.');
-                }
-                return r.json();
-            })
-            .then(img => {
-                const dogWithImg = { ...dog, imgURL: img.message, imgError: '' };
-                const newDogList = dogList.map(dog => {
-                    if (dog.name === dogBreed) {
-                        return dogWithImg;
-                    }
-                    return dog;
-                });
-                dispatch(setDogImg(dogWithImg, newDogList));
-            })
-            .catch(error => {
-                const dogWithImgError = { ...dog, imgError: error.toString() };
-                const newDogList = dogList.map(dog => {
-                    if (dog.name === dogBreed) {
-                        return dogWithImgError;
-                    }
-                    return dog;
-                });
-                dispatch(setDogImg(dogWithImgError, newDogList));
-            });
 }
 
 // Calls action dispatch to set dogList on storage
@@ -110,39 +67,6 @@ function setDogListError(dogListError) {
     return {
         type: types.SET_DOG_LIST_ERROR,
         dogListError
-    };
-}
-
-// Calls action dispatch to set dog image on storage
-// @param {object} dog - object of the dog to replace in storage
-export function setDogImg(dog, dogList) {
-    // sets the new list in local storage
-    localStorage.setItem('dogList', JSON.stringify(dogList));
-    // returns the action to set the list in store
-    return {
-        type: types.SET_DOG_IMG,
-        dog
-    };
-}
-
-// Calls action dispatch to set dog image error on storage
-// @params {object} dog - object of the dog to replace in storage
-export function setDogImgError(dog, dogList) {
-    // sets the new list in local storage
-    localStorage.setItem('dogList', JSON.stringify(dogList));
-    // returns the action to set the list in store
-    return {
-        type: types.SET_DOG_IMG_ERROR,
-        dog
-    };
-}
-
-// Call action to set the submitted dog in the store
-// @params {FormData} submittedDog - FormData object of the submitted dog
-function setSubmittedDog(submittedDog) {
-    return {
-        type: types.SET_SUBMITTED_DOG,
-        submittedDog
     };
 }
 
@@ -169,10 +93,10 @@ export function removeMessage(message) {
 // @param {formData} data - the data to send to the server
 // ** At the moment this function always returns error as the API still does not exist **
 export function sendDogForm(data) {
-    return dispatch =>
-        fetch('http://localhost:8080/api/senddogpic', {
-            mode: 'no-cors',
+    return (dispatch, getState) =>
+        fetch('http://localhost:3000/image', {
             method: 'POST',
+            enctype: 'multipart/form-data',
             body: data
         })
             .then(r => {
@@ -182,13 +106,24 @@ export function sendDogForm(data) {
                 return r.json();
             })
             .then(r => {
+                const { dogList } = getState();
+                const dogIndex = dogList.findIndex(({ id }) => ~~id === ~~r.DogId);
+                const currentDog = dogList[dogIndex];
+                console.log(currentDog);
+                const newList = Object.assign([], dogList, {
+                    [dogIndex]: {
+                        ...dogList[dogIndex],
+                        images: [...dogList[dogIndex].images, { id: r.id, path: r.path }]
+                    }
+                });
+                console.log(newList);
+                dispatch(setDogList(newList));
                 dispatch(
                     setMessage({
                         message: 'Dog submitted with success.',
                         type: 'success'
                     })
                 );
-                dispatch(setSubmittedDog(r.message));
             })
             .catch(error => {
                 dispatch(

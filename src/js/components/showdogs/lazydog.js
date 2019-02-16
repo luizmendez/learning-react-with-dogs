@@ -5,9 +5,7 @@ class LazyDog extends Component {
     static propTypes = {
         dogBreed: PropTypes.string,
         dogList: PropTypes.array,
-        filterValue: PropTypes.string,
-        fetchDogImg: PropTypes.func,
-        imgURL: PropTypes.string
+        filterValue: PropTypes.string
     };
 
     state = {
@@ -42,12 +40,7 @@ class LazyDog extends Component {
         // Check if component is visible
         if (this.isElementVisible(this.lazyCard.current)) {
             this.removeListener();
-            this.setState({ visible: true }, () => {
-                // Callback after setting the visibls state of the component,
-                // if the dog don't have an image URL then fetch it
-                if (!this.props.imgURL)
-                    this.props.fetchDogImg(this.props.dogBreed, this.props.dogList);
-            });
+            this.setState({ visible: true });
         }
     };
 

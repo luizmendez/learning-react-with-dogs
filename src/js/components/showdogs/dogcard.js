@@ -38,11 +38,11 @@ class DogCard extends Component {
                 className="dog-card card"
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}>
-                <Link href={`/dog/${dog.name}`}>
-                    <DogPic imgURL={dog.imgURL} />
+                <Link href={`/dog/${dog.breed}`}>
+                    <DogPic images={dog.images} />
                     {this.state.showTip && (
                         <MousePosition
-                            render={mousePos => <DogTip mousepos={mousePos}>{dog.name}</DogTip>}
+                            render={mousePos => <DogTip mousepos={mousePos}>{dog.breed}</DogTip>}
                         />
                     )}
                 </Link>

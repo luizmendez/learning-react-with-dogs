@@ -46,7 +46,9 @@ class Router extends Component {
     // Sets the current location and parts in the state with a callback to getCurrentRoute
     // @param {string} loc - current location.
     getCurrentLocation = (loc = null) => {
-        const locationPath = loc || window.location.pathname;
+        // If loc is falsey use window.location,
+        // if loc is triggered by browser back button use attr state.path
+        const locationPath = loc ? (loc.state ? loc.state.path : loc) : window.location.pathname;
         const locationParts = locationPath.split('/');
         if (locationPath !== this.state.locationPath) {
             this.setState(

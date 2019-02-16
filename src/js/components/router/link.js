@@ -50,7 +50,7 @@ class Link extends Component {
         // If link seems to be internal do a history.pushState to update the app location
         history.pushState(
             {
-                uri: href
+                path: href
             },
             '',
             href

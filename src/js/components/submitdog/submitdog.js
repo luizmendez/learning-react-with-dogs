@@ -29,22 +29,22 @@ class SubmitDog extends Component {
         e.preventDefault();
         const form = e.target;
         // Create formData to send data
-        const formData = new FormData();
+        const data = new FormData();
         // Iterate each form element to get its value
         Object.values(form.elements).forEach(field => {
             if (!field.name || !field.value) {
                 return false;
             }
             // If field is not of file type get name and value and append to formData
-            if (field.getAttribute('type') !== 'file') formData.append(field.name, field.value);
+            if (field.getAttribute('type') !== 'file') data.append(field.name, field.value);
             // If field is of file type, get the files and append to formData
             if (field.getAttribute('type') === 'file') {
                 const [pic] = field.files;
-                formData.append(field.name, pic);
+                data.append(field.name, pic);
             }
         });
         // Send formData to the action call
-        this.props.sendDogForm(formData);
+        this.props.sendDogForm(data);
     };
 
     render() {
@@ -77,8 +77,8 @@ class SubmitDog extends Component {
                                 required>
                                 {this.props.dogList &&
                                     this.props.dogList.map(dog => (
-                                        <option key={`option-${dog.name}`} value={dog.name}>
-                                            {dog.name}
+                                        <option key={`option-${dog.id}`} value={dog.id}>
+                                            {dog.breed}
                                         </option>
                                     ))}
                             </select>

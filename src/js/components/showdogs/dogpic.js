@@ -5,22 +5,21 @@ const defaultPlaceholder = require('../../../assets/dogloader.gif');
 
 class DogPic extends Component {
     static propTypes = {
-        dogImgUrl: PropTypes.string
+        images: PropTypes.array
     };
 
     state = {
+        imgURL: '',
         imgLoaded: false, // image was loaded
         error: null // image error
     };
 
     componentDidMount() {
         // if the component has an imgURL prop wait for the image to load
-        if (this.props.imgURL) this.waitImgLoad();
-    }
-
-    componentDidUpdate() {
-        // if the component have an imgURL prop wait for the image to load
-        if (!this.state.imgLoaded) this.waitImgLoad();
+        const images = this.props.images;
+        const imgURL = images[Math.floor(Math.random() * images.length)].path;
+        //const imgURL = images[images.length - 1].path;
+        this.setState({ imgURL }, this.waitImgLoad);
     }
 
     componentWillUnmount() {
@@ -37,13 +36,11 @@ class DogPic extends Component {
 
     // Waits for the image to load on the created img element
     waitImgLoad = () => {
-        // If there's not an imgURL then return
-        if (!this.props.imgURL) return;
         // Add image listeners on load and error
         this.img.addEventListener('load', this.handleImageLoaded);
         this.img.addEventListener('error', this.handleImageError);
         // Load the image URL into the img element
-        this.img.src = this.props.imgURL;
+        this.img.src = this.state.imgURL;
     };
 
     // If the event is trigger changge the loaded state of the image
@@ -53,12 +50,12 @@ class DogPic extends Component {
 
     // If the event is trigger changge the error state of the image
     handleImageError = () => {
-        this.setState({ error: `Error loading doggo pic: ${this.props.imgURL}` });
+        this.setState({ error: `Error loading doggo pic: ${this.state.imgURL}` });
     };
 
     render() {
-        const { imgLoaded } = this.state;
-        const { imgURL, height = '350px' } = this.props;
+        const { imgURL, imgLoaded } = this.state;
+        const { height = '350px' } = this.props;
         // If image is not loaded yet show a placeholder
         const bgImg = imgLoaded ? imgURL : defaultPlaceholder;
         // Styles with variables
